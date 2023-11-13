@@ -1,0 +1,16 @@
+neurocache-gateway
+├─ .env.local
+├─ .gitignore
+├─ appsettings.Development.json
+├─ appsettings.json
+├─ autoCommentPath.js
+├─ Controllers
+├─ neurocache-gateway.csproj
+├─ Program.cs
+├─ project-hierarchy.txt
+├─ Properties
+│  └─ launchSettings.json
+├─ README.md
+├─ root
+├─ rootGrouper.js
+└─ src

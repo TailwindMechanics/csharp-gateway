@@ -1,0 +1,24 @@
+# Top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# files
+[*.cs]
+indent_style = space
+indent_size = 4
+dotnet_sort_system_directives_first = true
+dotnet_style_object_initializer = true
+dotnet_style_expression_bodied_methods = true
+dotnet_style_expression_bodied_properties = true
+dotnet_style_expression_bodied_accessors = true
+
+# XML config files
+[*.{csproj,xml,json}]
+indent_style = space
+indent_size = 2

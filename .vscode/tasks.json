@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generate Project Tree",
+            "type": "shell",
+            "command": "${input:generateProjectHierarchy}",
+            "dependsOn": "Auto Comment Paths",
+            "problemMatcher": []
+        },
+        {
+            "label": "Auto Comment Paths",
+            "type": "shell",
+            "command": "node autoCommentPath.js",
+            "problemMatcher": []
+        },
+        {
+            "label": "Group Root",
+            "type": "shell",
+            "command": "node rootGrouper.js",
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/neurocache-gateway.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/neurocache-gateway.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/neurocache-gateway.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "generateProjectHierarchy",
+            "type": "command",
+            "command": "project-hierarchy-explorer.generate"
+        }
+    ]
+}

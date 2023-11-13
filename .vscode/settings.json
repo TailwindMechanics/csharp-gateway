@@ -1,0 +1,39 @@
+{
+  "editor.codeLens": false,
+  "editor.formatOnSave": true,
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "editor.detectIndentation": false,
+  "explorer.fileNesting.patterns": {
+    "root": ".editorconfig, .env.local, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, neurocache-gateway.csproj, neurocache-gateway.sln, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js"
+  },
+  "material-icon-theme.folders.associations": {
+    "External": "Import",
+    "Internal": "Export",
+    "Composer": "Examples",
+    "Dev": "Tools",
+    "Graph": "Shader",
+    "OpenAi": "Custom",
+    "ThreeFiber": "Middleware",
+    "atoms": "App",
+    "presets": "Middleware",
+    "behaviour": "Less",
+    "nodes": "Public",
+    "reflection": "Decorators",
+    "Agents": "Robot",
+    "Drawer": "Class",
+    "Avatars": "Robot",
+    "Properties": "Utils"
+  },
+  "project-hierarchy-explorer.ignorePatterns": [
+    ".git",
+    "env",
+    "bin",
+    "obj",
+    ".vscode"
+  ]
+}
