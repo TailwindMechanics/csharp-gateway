@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
-let fileCount = 0; // We'll increment this each time we update a file
+let fileCount = 0;
 
-const dirPath = path.join(__dirname, "src"); // Change this if your path differs
+const dirPath = path.join(__dirname, "controllers");
 
 const traverseDirAndUpdateFiles = (dir) => {
     const files = fs.readdirSync(dir);
@@ -18,9 +18,7 @@ const traverseDirAndUpdateFiles = (dir) => {
         if (stats.isDirectory()) {
             traverseDirAndUpdateFiles(filePath);
         } else if (
-            relativePath.endsWith(".rs") ||
-            relativePath.endsWith(".ts") ||
-            relativePath.endsWith(".tsx")
+            relativePath.endsWith(".cs")
         ) {
             let content = fs.readFileSync(filePath, "utf8");
 

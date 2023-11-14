@@ -2,6 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
+          "label": "Build and Run",
+          "type": "shell",
+          "command": "dotnet run",
+          "problemMatcher": []
+        },
+        {
             "label": "Generate Project Tree",
             "type": "shell",
             "command": "${input:generateProjectHierarchy}",
@@ -20,42 +26,6 @@
             "command": "node rootGrouper.js",
             "problemMatcher": []
         },
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/neurocache-gateway.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/neurocache-gateway.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/neurocache-gateway.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        }
     ],
     "inputs": [
         {

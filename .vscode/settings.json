@@ -1,5 +1,5 @@
 {
-  "editor.codeLens": false,
+  // "editor.codeLens": false,
   "editor.formatOnSave": true,
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
@@ -14,20 +14,13 @@
   "material-icon-theme.folders.associations": {
     "External": "Import",
     "Internal": "Export",
-    "Composer": "Examples",
-    "Dev": "Tools",
-    "Graph": "Shader",
-    "OpenAi": "Custom",
-    "ThreeFiber": "Middleware",
-    "atoms": "App",
-    "presets": "Middleware",
-    "behaviour": "Less",
-    "nodes": "Public",
-    "reflection": "Decorators",
     "Agents": "Robot",
-    "Drawer": "Class",
-    "Avatars": "Robot",
-    "Properties": "Utils"
+    "Properties": "Utils",
+    "Obj": "Packages",
+    "Requests": "Upload"
+  },
+  "material-icon-theme.files.associations": {
+    "root": "Tree",
   },
   "project-hierarchy-explorer.ignorePatterns": [
     ".git",
