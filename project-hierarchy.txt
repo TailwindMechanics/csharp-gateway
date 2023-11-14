@@ -2,12 +2,12 @@ neurocache-gateway
 ├─ .editorconfig
 ├─ .env.local
 ├─ .gitignore
-├─ appsettings.Development.json
 ├─ appsettings.json
 ├─ autoCommentPath.js
 ├─ Controllers
 │  ├─ Agent
 │  │  ├─ AgentController.cs
+│  │  ├─ Internal
 │  │  ├─ PushStreamResult.cs
 │  │  └─ Schema
 │  │     ├─ Edge.cs

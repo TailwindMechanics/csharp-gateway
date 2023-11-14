@@ -1,6 +1,7 @@
 //path: controllers\Agent\AgentController.cs
 
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 using neurocache_gateway.Controllers.Agent.Schema;
 
@@ -35,11 +36,8 @@ namespace neurocache_gateway.Controllers.Agent
         {
             return new PushStreamResult(async (stream, httpContext) =>
             {
-                var message = $"Running agent {request.AgentId}";
-                Console.WriteLine(message);
-
                 var writer = new StreamWriter(stream);
-                Console.WriteLine(startKey);
+                Log.Information(startKey);
                 await writer.WriteLineAsync($"data: {startKey}");
                 await writer.FlushAsync();
 
@@ -50,15 +48,15 @@ namespace neurocache_gateway.Controllers.Agent
 
                     await Task.Delay(1000);
 
-                    message = $"data: {i}";
-                    Console.WriteLine(message);
+                    var message = $"data: {i}";
+                    Log.Information(message);
                     await writer.WriteLineAsync(message);
                     await writer.FlushAsync();
                 }
 
                 await Task.Delay(1000);
 
-                Console.WriteLine(endKey);
+                Log.Information(endKey);
                 await writer.WriteLineAsync($"data: {endKey}");
                 await writer.FlushAsync();
             }, "text/event-stream");
