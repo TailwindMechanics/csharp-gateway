@@ -6,7 +6,20 @@ neurocache-gateway
 ├─ appsettings.json
 ├─ autoCommentPath.js
 ├─ Controllers
-│  └─ AgentController.cs
+│  ├─ Agent
+│  │  ├─ AgentController.cs
+│  │  ├─ PushStreamResult.cs
+│  │  └─ Schema
+│  │     ├─ Edge.cs
+│  │     ├─ Handle.cs
+│  │     ├─ Node.cs
+│  │     └─ NodeData.cs
+│  ├─ Health
+│  │  └─ HealthController.cs
+│  └─ Root
+│     └─ RootController.cs
+├─ docker-compose.yml
+├─ Dockerfile
 ├─ neurocache-gateway.csproj
 ├─ neurocache-gateway.sln
 ├─ Program.cs
@@ -14,7 +27,5 @@ neurocache-gateway
 ├─ Properties
 │  └─ launchSettings.json
 ├─ README.md
-├─ Requests
-│  └─ RunAgent.http
 ├─ root
 └─ rootGrouper.js

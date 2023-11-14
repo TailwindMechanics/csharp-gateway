@@ -2,9 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
+          "label": "Docker 🡅",
+          "type": "shell",
+          "command": "docker compose up --build",
+          "problemMatcher": []
+        },
+        {
+            "label": "Docker 🡇",
+            "type": "shell",
+            "command": "docker compose down",
+            "problemMatcher": []
+        },
+        {
           "label": "Build and Run",
           "type": "shell",
-          "command": "dotnet run",
+          "command": "dotnet watch run",
           "problemMatcher": []
         },
         {
