@@ -1,6 +1,6 @@
 neurocache-gateway
 ├─ .editorconfig
-├─ .env.local
+├─ .env
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
@@ -8,12 +8,17 @@ neurocache-gateway
 │  ├─ Agent
 │  │  ├─ AgentController.cs
 │  │  ├─ Internal
-│  │  ├─ PushStreamResult.cs
+│  │  │  ├─ OldController.cs
+│  │  │  └─ PushStreamResult.cs
 │  │  └─ Schema
+│  │     ├─ AgentGraphData.cs
 │  │     ├─ Edge.cs
 │  │     ├─ Handle.cs
 │  │     ├─ Node.cs
-│  │     └─ NodeData.cs
+│  │     ├─ NodeData.cs
+│  │     ├─ StartAgentRequest.cs
+│  │     ├─ StopAgentRequest.cs
+│  │     └─ Viewport.cs
 │  ├─ Health
 │  │  └─ HealthController.cs
 │  └─ Root
@@ -28,4 +33,8 @@ neurocache-gateway
 │  └─ launchSettings.json
 ├─ README.md
 ├─ root
-└─ rootGrouper.js
+├─ rootGrouper.js
+└─ Utilities
+   ├─ ApiKeyUtils.cs
+   ├─ ObservableExtensions.cs
+   └─ StringUtils.cs

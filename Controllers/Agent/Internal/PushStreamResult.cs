@@ -1,4 +1,4 @@
-//path: controllers\Agent\PushStreamResult.cs
+//path: controllers\Agent\Internal\PushStreamResult.cs
 
 using Microsoft.AspNetCore.Mvc;
 
