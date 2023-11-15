@@ -1,6 +1,6 @@
-//path: controllers\Agent\Schema\NodeData.cs
+//path: Schema\NodeData.cs
 
-namespace Neurocache.Gateway.Controllers.Agent.Schema
+namespace Neurocache.Gateway.Schema
 {
     public class NodeData
     {

@@ -1,6 +1,6 @@
-//path: controllers\Agent\Schema\Edge.cs
+//path: Schema\Edge.cs
 
-namespace Neurocache.Gateway.Controllers.Agent.Schema
+namespace Neurocache.Gateway.Schema
 {
     public class Edge
     {

@@ -7,19 +7,9 @@ neurocache-gateway
 ├─ Controllers
 │  ├─ Agent
 │  │  ├─ AgentController.cs
-│  │  ├─ Internal
-│  │  │  ├─ OldController.cs
-│  │  │  └─ PushStreamResult.cs
-│  │  └─ Schema
-│  │     ├─ AgentGraphData.cs
-│  │     ├─ Edge.cs
-│  │     ├─ Handle.cs
-│  │     ├─ Node.cs
-│  │     ├─ NodeData.cs
-│  │     ├─ StartAgentRequest.cs
-│  │     ├─ StopAgentRequest.cs
-│  │     ├─ StreamAgentRequest.cs
-│  │     └─ Viewport.cs
+│  │  └─ Internal
+│  │     ├─ OldController.cs
+│  │     └─ PushStreamResult.cs
 │  ├─ Health
 │  │  └─ HealthController.cs
 │  └─ Root
@@ -35,7 +25,18 @@ neurocache-gateway
 ├─ README.md
 ├─ root
 ├─ rootGrouper.js
+├─ Schema
+│  ├─ AgentGraphData.cs
+│  ├─ Edge.cs
+│  ├─ Handle.cs
+│  ├─ Node.cs
+│  ├─ NodeData.cs
+│  ├─ StartAgentRequest.cs
+│  ├─ StopAgentRequest.cs
+│  ├─ StreamAgentRequest.cs
+│  └─ Viewport.cs
 └─ Utilities
+   ├─ AgentUtils.cs
    ├─ Keys.cs
    ├─ ObservableExtensions.cs
    └─ StringUtils.cs

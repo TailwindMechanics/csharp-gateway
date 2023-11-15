@@ -1,24 +1,31 @@
 //path: controllers\Agent\AgentController.cs
 
 using Microsoft.AspNetCore.Mvc;
+using Supabase;
 
-using Neurocache.Gateway.Controllers.Agent.Schema;
 using Neurocache.Gateway.Utilities;
+using Neurocache.Gateway.Schema;
 
 namespace Neurocache.Gateway.Controllers.Agent
 {
     [ApiController]
     [Route("[controller]")]
-    public partial class AgentController : ControllerBase
+    public class AgentController : ControllerBase
     {
+        private readonly Client supabaseClient;
+        public AgentController(Client supabaseClient)
+            => this.supabaseClient = supabaseClient;
+
         [HttpPost("start")]
-        public IActionResult StartAgent([FromBody] StartAgentRequest body)
+        public async Task<IActionResult> StartAgent([FromBody] StartAgentRequest body)
         {
             if (!Keys.Guard(Request, out var apiKey))
                 return Unauthorized();
 
-            body.Deconstruct(out var instanceId, out var prompt);
-            return Ok(instanceId.StartMessage(prompt));
+            body.Deconstruct(out var agentId, out var prompt);
+            var graph = await AgentUtils.GetAgentGraph(supabaseClient, agentId, apiKey);
+
+            return Ok(agentId.StartMessage(graph!.Nodes[0].Data.NodeName!));
         }
 
         [HttpGet("stream")]

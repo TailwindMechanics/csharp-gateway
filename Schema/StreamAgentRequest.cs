@@ -1,6 +1,6 @@
-//path: controllers\Agent\Schema\StreamAgentRequest.cs
+//path: Schema\StreamAgentRequest.cs
 
-namespace Neurocache.Gateway.Controllers.Agent.Schema
+namespace Neurocache.Gateway.Schema
 {
     public class StreamAgentRequest
     {

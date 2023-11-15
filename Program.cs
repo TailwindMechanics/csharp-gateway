@@ -1,6 +1,7 @@
 // path: /Program.cs
 
 using dotenv.net;
+using Supabase;
 using Serilog;
 
 var envVars = DotEnv.Fluent()
@@ -14,6 +15,19 @@ var envVars = DotEnv.Fluent()
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
+    builder.Services.AddScoped(_ =>
+    {
+        return new Client
+        (
+            envVars["SUPABASE_URL"],
+            envVars["SUPABASE_KEY"],
+            new SupabaseOptions
+            {
+                AutoRefreshToken = true,
+                AutoConnectRealtime = true
+            }
+        );
+    });
 }
 
 Log.Logger = new LoggerConfiguration()

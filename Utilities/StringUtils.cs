@@ -1,3 +1,4 @@
+//path: Utilities\StringUtils.cs
 
 using Serilog;
 

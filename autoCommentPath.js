@@ -3,7 +3,8 @@ const path = require("path");
 
 let fileCount = 0;
 
-const dirPath = path.join(__dirname, "controllers");
+// Root directories to traverse
+const rootDirs = ["controllers", "Utilities", "Schema"];
 
 const traverseDirAndUpdateFiles = (dir) => {
     const files = fs.readdirSync(dir);
@@ -17,25 +18,20 @@ const traverseDirAndUpdateFiles = (dir) => {
 
         if (stats.isDirectory()) {
             traverseDirAndUpdateFiles(filePath);
-        } else if (
-            relativePath.endsWith(".cs")
-        ) {
+        } else if (relativePath.endsWith(".cs")) {
             let content = fs.readFileSync(filePath, "utf8");
 
             // Check if the file has a path comment anywhere in it
             const pathCommentIndex = content.indexOf("//path: ");
             if (pathCommentIndex !== -1) {
                 // Find the start of the line with the path comment
-                const lineStart =
-                    content.lastIndexOf("\n", pathCommentIndex) + 1;
+                const lineStart = content.lastIndexOf("\n", pathCommentIndex) + 1;
 
                 // Find the end of the line with the path comment
                 const lineEnd = content.indexOf("\n", pathCommentIndex);
 
                 // Remove the line with the path comment
-                content =
-                    content.substring(0, lineStart) +
-                    content.substring(lineEnd + 1);
+                content = content.substring(0, lineStart) + content.substring(lineEnd + 1);
             }
 
             // Remove any leading empty lines or whitespace
@@ -50,6 +46,10 @@ const traverseDirAndUpdateFiles = (dir) => {
     }
 };
 
-traverseDirAndUpdateFiles(dirPath);
+// Traverse each root directory
+rootDirs.forEach(dir => {
+    const dirPath = path.join(__dirname, dir);
+    traverseDirAndUpdateFiles(dirPath);
+});
 
 console.log(`Updated ${fileCount} files`);

@@ -1,6 +1,6 @@
-//path: controllers\Agent\Schema\Handle.cs
+//path: Schema\Handle.cs
 
-namespace Neurocache.Gateway.Controllers.Agent.Schema
+namespace Neurocache.Gateway.Schema
 {
     public class Handle
     {
