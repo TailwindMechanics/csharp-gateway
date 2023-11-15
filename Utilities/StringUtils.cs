@@ -12,9 +12,9 @@ namespace Neurocache.Gateway.Utilities
             return message;
         }
 
-        public static string StreamMessage(this string id, string msg)
+        public static string StreamMessage(this string id, string outputLevel)
         {
-            var message = $"<emit [{id}], [{msg}]>";
+            var message = $"<emit [{id}], [{outputLevel}]>";
             Log.Information(message);
             return message;
         }

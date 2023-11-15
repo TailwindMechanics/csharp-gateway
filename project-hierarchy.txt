@@ -18,6 +18,7 @@ neurocache-gateway
 │  │     ├─ NodeData.cs
 │  │     ├─ StartAgentRequest.cs
 │  │     ├─ StopAgentRequest.cs
+│  │     ├─ StreamAgentRequest.cs
 │  │     └─ Viewport.cs
 │  ├─ Health
 │  │  └─ HealthController.cs
@@ -35,6 +36,6 @@ neurocache-gateway
 ├─ root
 ├─ rootGrouper.js
 └─ Utilities
-   ├─ ApiKeyUtils.cs
+   ├─ Keys.cs
    ├─ ObservableExtensions.cs
    └─ StringUtils.cs

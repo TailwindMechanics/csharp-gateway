@@ -22,14 +22,12 @@ namespace Neurocache.Gateway.Controllers.Agent
         }
 
         [HttpGet("stream")]
-        public IActionResult StreamAgent([FromQuery] StopAgentRequest query)
+        public IActionResult StreamAgent([FromQuery] StreamAgentRequest query)
         {
             if (!Keys.Guard(Request, out var apiKey))
                 return Unauthorized();
 
-            query.Deconstruct(out var instanceId);
-            query.Deconstruct(out var outputLevel);
-
+            query.Deconstruct(out var instanceId, out var outputLevel);
             return Ok(instanceId.StreamMessage(outputLevel));
         }
 
