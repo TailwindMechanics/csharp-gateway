@@ -1,8 +1,6 @@
 //path: controllers\Agent\AgentController.cs
 
 using Microsoft.AspNetCore.Mvc;
-using KafkaFlow.Producers;
-using KafkaFlow;
 using Supabase;
 using Serilog;
 
@@ -15,17 +13,25 @@ namespace Neurocache.Gateway.Controllers.Agent
     [Route("[controller]")]
     public class AgentController : ControllerBase
     {
-        private readonly IMessageProducer producer;
         private readonly Client supabaseClient;
 
-        public AgentController(Client supabaseClient, IProducerAccessor producerAccessor)
+        public AgentController(Client supabaseClient)
         {
             this.supabaseClient = supabaseClient;
-            producer = producerAccessor.GetProducer(KafkaUtils.ProducerName);
         }
 
-        [HttpPost("start")]
-        public async Task<IActionResult> StartAgent([FromBody] StartAgentRequest body)
+        [HttpPost("stop")]
+        public IActionResult StopAgent([FromBody] StopAgentRequest body)
+        {
+            if (!Keys.Guard(Request, out var apiKey))
+                return Unauthorized();
+
+            body.Deconstruct(out var instanceId);
+            return Ok(instanceId.StopMessage());
+        }
+
+        [HttpPost("run")]
+        public async Task<IActionResult> RunAgentAsync([FromBody] RunAgentRequest body)
         {
             Log.Information("StartAgent called with body: {Body}", body);
 
@@ -39,36 +45,34 @@ namespace Neurocache.Gateway.Controllers.Agent
             Log.Information("Fetching graph for Agent ID: {AgentId}", agentId);
             var graph = await AgentUtils.GetAgentGraph(supabaseClient, agentId, apiKey);
 
-            Log.Information("Producing message to Kafka for Agent ID: {AgentId}", agentId);
-            await producer.ProduceAsync(
-                KafkaUtils.TopicName,
-                agentId,
-                graph
-            );
-
-            var startMessage = agentId.StartMessage(graph!.Nodes[0].Data.Body!);
-            Log.Information("StartAgent completed. Response: {StartMessage}", startMessage);
-            return Ok(startMessage);
+            Log.Information("Starting Sse Loop");
+            return new PushStreamResult(StreamLoop, "text/event-stream");
         }
 
-        [HttpGet("stream")]
-        public IActionResult StreamAgent([FromQuery] StreamAgentRequest query)
+        async Task StreamLoop(Stream stream, HttpContext httpContext)
         {
-            if (!Keys.Guard(Request, out var apiKey))
-                return Unauthorized();
+            var instanceId = Guid.NewGuid();
+            var writer = new StreamWriter(stream);
+            await Emit(writer, $"<start [{instanceId}]>");
 
-            query.Deconstruct(out var instanceId, out var outputLevel);
-            return Ok(instanceId.StreamMessage(outputLevel));
+            for (int i = 4; i >= 0; i--)
+            {
+                if (httpContext.RequestAborted.IsCancellationRequested)
+                    break;
+
+                await Task.Delay(1000);
+                await Emit(writer, $"<emit [{instanceId}], [{i}]>");
+            }
+
+            await Task.Delay(1000);
+            await Emit(writer, $"</end [{instanceId}]>");
         }
 
-        [HttpPost("stop")]
-        public IActionResult StopAgent([FromBody] StopAgentRequest body)
+        async Task Emit(StreamWriter writer, string emission)
         {
-            if (!Keys.Guard(Request, out var apiKey))
-                return Unauthorized();
-
-            body.Deconstruct(out var instanceId);
-            return Ok(instanceId.StopMessage());
+            Log.Information(emission);
+            await writer.WriteLineAsync($"data: {emission}");
+            await writer.FlushAsync();
         }
     }
 }

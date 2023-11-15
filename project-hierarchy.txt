@@ -31,12 +31,14 @@ neurocache-gateway
 │  ├─ Handle.cs
 │  ├─ Node.cs
 │  ├─ NodeData.cs
+│  ├─ RunAgentRequest.cs
 │  ├─ StartAgentRequest.cs
 │  ├─ StopAgentRequest.cs
 │  ├─ StreamAgentRequest.cs
 │  └─ Viewport.cs
 └─ Utilities
    ├─ AgentUtils.cs
+   ├─ KafkaUtils.cs
    ├─ Keys.cs
    ├─ ObservableExtensions.cs
    └─ StringUtils.cs
