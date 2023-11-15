@@ -1,6 +1,6 @@
 //path: controllers\Agent\Schema\Node.cs
 
-namespace neurocache_gateway.Controllers.Agent.Schema
+namespace Neurocache.Gateway.Controllers.Agent.Schema
 {
     public class Node
     {

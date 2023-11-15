@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>neurocache_gateway</RootNamespace>
+    <RootNamespace>Neurocache.Gateway</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +13,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="supabase-csharp" Version="0.13.7" />
+    <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace neurocache_gateway.Controllers.Root
+namespace Neurocache.Gateway.Controllers.Root
 {
     [ApiController]
     [Route("/")]

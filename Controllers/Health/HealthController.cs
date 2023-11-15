@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace neurocache_gateway.Controllers.Health
+namespace Neurocache.Gateway.Controllers.Health
 {
     [ApiController]
     [Route("health")]

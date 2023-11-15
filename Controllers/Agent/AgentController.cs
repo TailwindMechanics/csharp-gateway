@@ -3,9 +3,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-using neurocache_gateway.Controllers.Agent.Schema;
+using Neurocache.Gateway.Controllers.Agent.Schema;
 
-namespace neurocache_gateway.Controllers.Agent
+namespace Neurocache.Gateway.Controllers.Agent
 {
     [ApiController]
     [Route("[controller]")]
@@ -16,50 +16,58 @@ namespace neurocache_gateway.Controllers.Agent
         public record RunAgentRequest(string AgentId, string Prompt);
         public record StopAgentRequest(string InstanceId);
 
-        const string startKey = "<start>";
-        const string stopKey = "<stop>";
-        const string endKey = "</end>";
-
         [HttpPost("stop")]
-        public IActionResult StopAgent([FromHeader(Name = "apikey")] Guid apiKey,
-                    [FromBody] StopAgentRequest request)
+        public IActionResult StopAgent([FromBody] StopAgentRequest body)
         {
-            var message = $"Stopped agent {request.InstanceId}";
-            Console.WriteLine(message);
+            if (!Guid.TryParse(Request.Headers["apikey"], out var apiKey))
+            {
+                Log.Information("Unauthorized: Invalid API Key format");
+                return Unauthorized();
+            }
+
+            body.Deconstruct(out var instanceId);
+            var message = $"<stop [{instanceId}]>";
+            Log.Information(message);
             return Ok(message);
         }
 
         [HttpPost("run")]
-        public IActionResult RunAgent(
-                [FromHeader(Name = "apikey")] Guid apiKey,
-                [FromBody] RunAgentRequest request)
+        public IActionResult RunAgent([FromBody] RunAgentRequest body)
         {
-            return new PushStreamResult(async (stream, httpContext) =>
+            if (!Guid.TryParse(Request.Headers["apikey"], out var apiKey))
             {
-                var writer = new StreamWriter(stream);
-                Log.Information(startKey);
-                await writer.WriteLineAsync($"data: {startKey}");
-                await writer.FlushAsync();
+                Log.Information("Unauthorized: Invalid API Key format");
+                return Unauthorized();
+            }
 
-                for (int i = 1; i <= 3; i++)
-                {
-                    if (httpContext.RequestAborted.IsCancellationRequested)
-                        break;
+            body.Deconstruct(out var agentId, out var prompt);
+            return new PushStreamResult(StreamLoop, "text/event-stream");
+        }
 
-                    await Task.Delay(1000);
+        async Task StreamLoop(Stream stream, HttpContext httpContext)
+        {
+            var instanceId = Guid.NewGuid();
+            var writer = new StreamWriter(stream);
+            await Emit(writer, $"<start [{instanceId}]>");
 
-                    var message = $"data: {i}";
-                    Log.Information(message);
-                    await writer.WriteLineAsync(message);
-                    await writer.FlushAsync();
-                }
+            for (int i = 4; i >= 0; i--)
+            {
+                if (httpContext.RequestAborted.IsCancellationRequested)
+                    break;
 
                 await Task.Delay(1000);
+                await Emit(writer, $"<emit [{instanceId}], [{i}]>");
+            }
 
-                Log.Information(endKey);
-                await writer.WriteLineAsync($"data: {endKey}");
-                await writer.FlushAsync();
-            }, "text/event-stream");
+            await Task.Delay(1000);
+            await Emit(writer, $"</end [{instanceId}]>");
+        }
+
+        async Task Emit(StreamWriter writer, string emission)
+        {
+            Log.Information(emission);
+            await writer.WriteLineAsync($"data: {emission}");
+            await writer.FlushAsync();
         }
     }
 }

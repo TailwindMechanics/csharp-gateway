@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace neurocache_gateway.Controllers.Agent
+namespace Neurocache.Gateway.Controllers.Agent
 {
     public class PushStreamResult : IActionResult
     {
