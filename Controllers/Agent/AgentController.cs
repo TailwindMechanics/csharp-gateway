@@ -1,7 +1,10 @@
 //path: controllers\Agent\AgentController.cs
 
 using Microsoft.AspNetCore.Mvc;
+using KafkaFlow.Producers;
+using KafkaFlow;
 using Supabase;
+using Serilog;
 
 using Neurocache.Gateway.Utilities;
 using Neurocache.Gateway.Schema;
@@ -12,20 +15,40 @@ namespace Neurocache.Gateway.Controllers.Agent
     [Route("[controller]")]
     public class AgentController : ControllerBase
     {
+        private readonly IMessageProducer producer;
         private readonly Client supabaseClient;
-        public AgentController(Client supabaseClient)
-            => this.supabaseClient = supabaseClient;
+
+        public AgentController(Client supabaseClient, IProducerAccessor producerAccessor)
+        {
+            this.supabaseClient = supabaseClient;
+            producer = producerAccessor.GetProducer(KafkaUtils.ProducerName);
+        }
 
         [HttpPost("start")]
         public async Task<IActionResult> StartAgent([FromBody] StartAgentRequest body)
         {
+            Log.Information("StartAgent called with body: {Body}", body);
+
             if (!Keys.Guard(Request, out var apiKey))
+            {
+                Log.Warning("Unauthorized access attempt in StartAgent");
                 return Unauthorized();
+            }
 
             body.Deconstruct(out var agentId, out var prompt);
+            Log.Information("Fetching graph for Agent ID: {AgentId}", agentId);
             var graph = await AgentUtils.GetAgentGraph(supabaseClient, agentId, apiKey);
 
-            return Ok(agentId.StartMessage(graph!.Nodes[0].Data.NodeName!));
+            Log.Information("Producing message to Kafka for Agent ID: {AgentId}", agentId);
+            await producer.ProduceAsync(
+                KafkaUtils.TopicName,
+                agentId,
+                graph
+            );
+
+            var startMessage = agentId.StartMessage(graph!.Nodes[0].Data.Body!);
+            Log.Information("StartAgent completed. Response: {StartMessage}", startMessage);
+            return Ok(startMessage);
         }
 
         [HttpGet("stream")]

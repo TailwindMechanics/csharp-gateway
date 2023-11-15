@@ -1,8 +1,13 @@
 // path: /Program.cs
 
+using KafkaFlow.Configuration;
+using KafkaFlow.Serializer;
 using dotenv.net;
+using KafkaFlow;
 using Supabase;
 using Serilog;
+
+using Neurocache.Gateway.Utilities;
 
 var envVars = DotEnv.Fluent()
     .WithExceptions()
@@ -15,6 +20,35 @@ var envVars = DotEnv.Fluent()
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
+
+    builder.Services.AddKafka(kafka =>
+    {
+        kafka
+        .AddCluster(cluster =>
+        {
+            cluster
+            .WithBrokers(new[] { envVars["KAFKA_BOOTSTRAP_SERVERS"] })
+            .WithSecurityInformation(info =>
+            {
+                info.SecurityProtocol = SecurityProtocol.SaslSsl;
+                info.SaslMechanism = SaslMechanism.ScramSha256;
+                info.SaslUsername = envVars["KAFKA_SASL_USERNAME"];
+                info.SaslPassword = envVars["KAFKA_SASL_PASSWORD"];
+            })
+            .CreateTopicIfNotExists(KafkaUtils.TopicName, 1, 1)
+            .AddProducer(
+                KafkaUtils.ProducerName,
+                producer =>
+                {
+                    producer.DefaultTopic(KafkaUtils.TopicName);
+                    producer.AddMiddlewares(middlewares =>
+                    {
+                        middlewares.AddSerializer<NewtonsoftJsonSerializer>();
+                    });
+                });
+        });
+    });
+
     builder.Services.AddScoped(_ =>
     {
         return new Client
