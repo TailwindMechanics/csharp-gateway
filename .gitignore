@@ -120,5 +120,3 @@ src/.vs/config/applicationhost.config
 
 .env
 .env.local
-
-Requests/
