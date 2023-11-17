@@ -28,8 +28,9 @@ namespace Neurocache.Gateway.Controllers.Agent
 
             using var client = new HttpClient();
 
-            Log.Information("Sending kill request to Nexus");
-            await client.PostAsync(StringUtils.NexusRoute("csharp", "kill"), null);
+            var nexusUrl = StringUtils.NexusRoute("csharp", "kill");
+            Log.Information($"Sending kill request to {nexusUrl}");
+            await client.PostAsync(nexusUrl, null);
 
             return Ok("Killed");
         }
@@ -49,8 +50,9 @@ namespace Neurocache.Gateway.Controllers.Agent
                 "application/json"
             );
 
-            Log.Information("Sending stop request to Nexus");
-            await client.PostAsync(StringUtils.NexusRoute("csharp", "stop"), null);
+            var nexusUrl = StringUtils.NexusRoute("csharp", "stop");
+            Log.Information($"Sending stop request to {nexusUrl}");
+            await client.PostAsync(nexusUrl, null);
 
             return Ok(sessionToken.StopMessage());
         }

@@ -10,7 +10,7 @@
   "explorer.fileNesting.expand": false,
   "editor.detectIndentation": false,
   "explorer.fileNesting.patterns": {
-    "root": ".editorconfig, .env, .gitignore, appsettings.json, autoCommentPath.js, docker-compose.yml, Dockerfile, neurocache-gateway.csproj, neurocache-gateway.sln, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js"
+    "root": ".editorconfig, .env, .gitignore, appsettings.json, autoCommentPath.js, csharp-gateway.csproj, csharp-gateway.sln, docker-compose.yml, Dockerfile, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js"
   },
   "material-icon-theme.folders.associations": {
     "Properties": "Utils",
