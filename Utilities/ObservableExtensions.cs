@@ -1,5 +1,6 @@
 //path: Utilities\ObservableExtensions.cs
 
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace Neurocache.Gateway.Utilities
@@ -25,6 +26,19 @@ namespace Neurocache.Gateway.Utilities
                     },
                     onError: observer.OnError,
                     onCompleted: observer.OnCompleted);
+            });
+        }
+
+        public static IObservable<T> TakeUntilDisposed<T>(this IObservable<T> source, IDisposable disposable)
+        {
+            return Observable.Create<T>(observer =>
+            {
+                var subscription = source.Subscribe(observer);
+                return Disposable.Create(() =>
+                {
+                    subscription.Dispose();
+                    disposable.Dispose();
+                });
             });
         }
     }

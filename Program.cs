@@ -43,11 +43,11 @@ var app = builder.Build();
     var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
     lifetime.ApplicationStarted.Register(() =>
     {
-        Log.Information("<--- Neurocache Gateway Started --->");
+        Log.Information("<--- Gateway Started --->");
     });
     lifetime.ApplicationStopping.Register(() =>
     {
-        Log.Information("<--- Neurocache Gateway Stopped --->");
+        Log.Information("<--- Gateway Stopped --->");
         Log.CloseAndFlush();
     });
 

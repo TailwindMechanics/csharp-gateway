@@ -7,6 +7,11 @@ let fileCount = 0;
 const rootDirs = ["controllers", "Utilities", "Schema"];
 
 const traverseDirAndUpdateFiles = (dir) => {
+    if (!fs.existsSync(dir)) {
+        // Skip this directory if it doesn't exist
+        return;
+    }
+
     const files = fs.readdirSync(dir);
 
     for (let file of files) {
