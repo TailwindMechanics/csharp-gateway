@@ -1,4 +1,5 @@
 {
+  "workbench.colorTheme": "Monokai",
   "editor.codeLens": false,
   "editor.formatOnSave": true,
   "[csharp]": {
