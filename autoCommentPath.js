@@ -4,7 +4,7 @@ const path = require("path");
 let fileCount = 0;
 
 // Root directories to traverse
-const rootDirs = ["controllers", "Utilities", "Schema"];
+const rootDirs = ["src"];
 
 const traverseDirAndUpdateFiles = (dir) => {
     if (!fs.existsSync(dir)) {

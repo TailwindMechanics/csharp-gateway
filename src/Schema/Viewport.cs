@@ -1,4 +1,4 @@
-//path: Schema\Viewport.cs
+//path: src\Schema\Viewport.cs
 
 namespace Neurocache.Gateway.Schema
 {

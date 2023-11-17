@@ -1,4 +1,4 @@
-//path: Schema\StopAgentRequest.cs
+//path: src\Schema\StopAgentRequest.cs
 
 namespace Neurocache.Gateway.Schema
 {

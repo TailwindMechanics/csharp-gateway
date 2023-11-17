@@ -1,4 +1,4 @@
-//path: Utilities\ObservableExtensions.cs
+//path: src\Utilities\ObservableExtensions.cs
 
 using System.Reactive.Disposables;
 using System.Reactive.Linq;

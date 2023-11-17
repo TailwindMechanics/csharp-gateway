@@ -4,16 +4,6 @@ neurocache-gateway
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
-├─ Controllers
-│  ├─ Agent
-│  │  ├─ AgentController.cs
-│  │  └─ Internal
-│  │     ├─ OldController.cs
-│  │     └─ PushStreamResult.cs
-│  ├─ Health
-│  │  └─ HealthController.cs
-│  └─ Root
-│     └─ RootController.cs
 ├─ docker-compose.yml
 ├─ Dockerfile
 ├─ neurocache-gateway.csproj
@@ -25,20 +15,28 @@ neurocache-gateway
 ├─ README.md
 ├─ root
 ├─ rootGrouper.js
-├─ Schema
-│  ├─ AgentGraphData.cs
-│  ├─ Edge.cs
-│  ├─ Handle.cs
-│  ├─ Node.cs
-│  ├─ NodeData.cs
-│  ├─ RunAgentRequest.cs
-│  ├─ StartAgentRequest.cs
-│  ├─ StopAgentRequest.cs
-│  ├─ StreamAgentRequest.cs
-│  └─ Viewport.cs
-└─ Utilities
-   ├─ AgentUtils.cs
-   ├─ KafkaUtils.cs
-   ├─ Keys.cs
-   ├─ ObservableExtensions.cs
-   └─ StringUtils.cs
+└─ src
+   ├─ Controllers
+   │  ├─ Agent
+   │  │  ├─ AgentController.cs
+   │  │  └─ Internal
+   │  │     └─ PushStreamResult.cs
+   │  ├─ Health
+   │  │  └─ HealthController.cs
+   │  └─ Root
+   │     └─ RootController.cs
+   ├─ Schema
+   │  ├─ AgentGraphData.cs
+   │  ├─ Edge.cs
+   │  ├─ Handle.cs
+   │  ├─ Node.cs
+   │  ├─ NodeData.cs
+   │  ├─ RunAgentRequest.cs
+   │  ├─ StartAgentRequest.cs
+   │  ├─ StopAgentRequest.cs
+   │  └─ Viewport.cs
+   └─ Utilities
+      ├─ AgentUtils.cs
+      ├─ Keys.cs
+      ├─ ObservableExtensions.cs
+      └─ StringUtils.cs

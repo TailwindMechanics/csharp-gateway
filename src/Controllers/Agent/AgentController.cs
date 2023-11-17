@@ -1,6 +1,8 @@
-//path: controllers\Agent\AgentController.cs
+//path: src\Controllers\Agent\AgentController.cs
 
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 using Supabase;
 using Serilog;
 
@@ -16,17 +18,40 @@ namespace Neurocache.Gateway.Controllers.Agent
         private readonly Client supabaseClient;
 
         public AgentController(Client supabaseClient)
+            => this.supabaseClient = supabaseClient;
+
+        [HttpPost("kill")]
+        public async Task<IActionResult> Kill()
         {
-            this.supabaseClient = supabaseClient;
+            if (!Keys.Guard(Request, out var apiKey))
+                return Unauthorized();
+
+            using var client = new HttpClient();
+
+            Log.Information("Sending kill request to Nexus");
+            await client.PostAsync(StringUtils.NexusRoute("csharp", "kill"), null);
+
+            return Ok("Killed");
         }
 
         [HttpPost("stop")]
-        public IActionResult StopAgent([FromBody] StopAgentRequest body)
+        public async Task<IActionResult> StopAgent([FromBody] StopAgentRequest body)
         {
             if (!Keys.Guard(Request, out var apiKey))
                 return Unauthorized();
 
             body.Deconstruct(out var sessionToken);
+
+            using var client = new HttpClient();
+            var content = new StringContent(JsonConvert.SerializeObject(
+                new { sessionToken }),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            Log.Information("Sending stop request to Nexus");
+            await client.PostAsync(StringUtils.NexusRoute("csharp", "stop"), null);
+
             return Ok(sessionToken.StopMessage());
         }
 

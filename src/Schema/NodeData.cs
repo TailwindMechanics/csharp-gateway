@@ -1,4 +1,4 @@
-//path: Schema\NodeData.cs
+//path: src\Schema\NodeData.cs
 
 namespace Neurocache.Gateway.Schema
 {

@@ -1,4 +1,4 @@
-//path: controllers\Root\RootController.cs
+//path: src\Controllers\Root\RootController.cs
 
 using Microsoft.AspNetCore.Mvc;
 

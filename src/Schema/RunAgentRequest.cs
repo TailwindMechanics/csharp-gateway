@@ -1,4 +1,4 @@
-//path: Schema\RunAgentRequest.cs
+//path: src\Schema\RunAgentRequest.cs
 
 namespace Neurocache.Gateway.Schema
 {

@@ -1,4 +1,4 @@
-//path: Schema\AgentGraphData.cs
+//path: src\Schema\AgentGraphData.cs
 
 namespace Neurocache.Gateway.Schema
 {

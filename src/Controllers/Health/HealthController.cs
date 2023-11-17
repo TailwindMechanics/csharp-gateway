@@ -1,4 +1,4 @@
-//path: controllers\Health\HealthController.cs
+//path: src\Controllers\Health\HealthController.cs
 
 using Microsoft.AspNetCore.Mvc;
 

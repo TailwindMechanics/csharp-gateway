@@ -1,4 +1,4 @@
-//path: Utilities\Keys.cs
+//path: src\Utilities\Keys.cs
 
 using Serilog;
 
