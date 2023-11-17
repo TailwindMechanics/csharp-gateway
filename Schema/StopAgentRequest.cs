@@ -2,5 +2,5 @@
 
 namespace Neurocache.Gateway.Schema
 {
-    public record StopAgentRequest(string InstanceId);
+    public record StopAgentRequest(string SessionToken);
 }

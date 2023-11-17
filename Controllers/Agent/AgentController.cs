@@ -26,8 +26,8 @@ namespace Neurocache.Gateway.Controllers.Agent
             if (!Keys.Guard(Request, out var apiKey))
                 return Unauthorized();
 
-            body.Deconstruct(out var instanceId);
-            return Ok(instanceId.StopMessage());
+            body.Deconstruct(out var sessionToken);
+            return Ok(sessionToken.StopMessage());
         }
 
         [HttpPost("run")]
@@ -51,9 +51,9 @@ namespace Neurocache.Gateway.Controllers.Agent
 
         async Task StreamLoop(Stream stream, HttpContext httpContext)
         {
-            var instanceId = Guid.NewGuid();
+            var sessionToken = Guid.NewGuid();
             var writer = new StreamWriter(stream);
-            await Emit(writer, $"<start [{instanceId}]>");
+            await Emit(writer, $"<start [sessionToken: {sessionToken}]>");
 
             for (int i = 4; i >= 0; i--)
             {
@@ -61,11 +61,11 @@ namespace Neurocache.Gateway.Controllers.Agent
                     break;
 
                 await Task.Delay(1000);
-                await Emit(writer, $"<emit [{instanceId}], [{i}]>");
+                await Emit(writer, $"<emit [sessionToken: {sessionToken}], [{i}]>");
             }
 
             await Task.Delay(1000);
-            await Emit(writer, $"</end [{instanceId}]>");
+            await Emit(writer, $"</end [sessionToken: {sessionToken}]>");
         }
 
         async Task Emit(StreamWriter writer, string emission)
