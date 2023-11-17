@@ -1,13 +1,13 @@
-neurocache-gateway
+csharp-gateway
 ├─ .editorconfig
 ├─ .env
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
+├─ csharp-gateway.csproj
+├─ csharp-gateway.sln
 ├─ docker-compose.yml
 ├─ Dockerfile
-├─ neurocache-gateway.csproj
-├─ neurocache-gateway.sln
 ├─ Program.cs
 ├─ project-hierarchy.txt
 ├─ Properties
@@ -17,14 +17,10 @@ neurocache-gateway
 ├─ rootGrouper.js
 └─ src
    ├─ Controllers
-   │  ├─ Agent
-   │  │  ├─ AgentController.cs
-   │  │  └─ Internal
-   │  │     └─ PushStreamResult.cs
-   │  ├─ Health
-   │  │  └─ HealthController.cs
-   │  └─ Root
-   │     └─ RootController.cs
+   │  └─ Agent
+   │     ├─ AgentController.cs
+   │     └─ Internal
+   │        └─ PushStreamResult.cs
    ├─ Schema
    │  ├─ AgentGraphData.cs
    │  ├─ Edge.cs

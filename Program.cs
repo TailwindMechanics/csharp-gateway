@@ -27,6 +27,9 @@ else
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    var port = Environment.GetEnvironmentVariable("PORT");
+    builder.WebHost.UseUrls($"http://*:{port}");
+
     builder.Services.AddControllers();
     builder.Services.AddScoped(_ =>
     {
@@ -50,7 +53,6 @@ Log.Logger = new LoggerConfiguration()
 
 var app = builder.Build();
 {
-    app.UseHttpsRedirection();
     app.MapControllers();
 
     var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();

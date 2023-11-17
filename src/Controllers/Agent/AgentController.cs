@@ -8,11 +8,11 @@ using Serilog;
 
 using Neurocache.Gateway.Utilities;
 using Neurocache.Gateway.Schema;
+using System.Net;
 
 namespace Neurocache.Gateway.Controllers.Agent
 {
     [ApiController]
-    [Route("[controller]")]
     public class AgentController : ControllerBase
     {
         private readonly Client supabaseClient;
@@ -20,7 +20,39 @@ namespace Neurocache.Gateway.Controllers.Agent
         public AgentController(Client supabaseClient)
             => this.supabaseClient = supabaseClient;
 
-        [HttpPost("kill")]
+        [HttpGet("ping")]
+        public async Task<IActionResult> Ping()
+        {
+            using var client = new HttpClient();
+            var nexusUrl = Environment.GetEnvironmentVariable("CSHARP_NEXUS_URL")
+                + "/ping"!;
+            Log.Information($"Sending Ping to {nexusUrl}");
+            var response = await client.GetAsync(nexusUrl);
+
+            return response.StatusCode switch
+            {
+                HttpStatusCode.OK => Ok("Pong"),
+                _ => StatusCode(500, "Error contacting Nexus service.")
+            };
+        }
+
+        [HttpGet("/")]
+        public IActionResult Root()
+        {
+            var message = "♫ Hello world, this is me ♫";
+            Console.WriteLine(message);
+            return Ok(message);
+        }
+
+        [HttpGet("health")]
+        public IActionResult Health()
+        {
+            var message = "Csharp Gateway is healthy!";
+            Log.Information(message);
+            return Ok(message);
+        }
+
+        [HttpPost("agent/kill")]
         public async Task<IActionResult> Kill()
         {
             if (!Keys.Guard(Request, out var apiKey))
@@ -36,7 +68,7 @@ namespace Neurocache.Gateway.Controllers.Agent
             return Ok("Killed");
         }
 
-        [HttpPost("stop")]
+        [HttpPost("agent/stop")]
         public async Task<IActionResult> StopAgent([FromBody] StopAgentRequest body)
         {
             if (!Keys.Guard(Request, out var apiKey))
@@ -54,12 +86,22 @@ namespace Neurocache.Gateway.Controllers.Agent
             var nexusUrl = Environment.GetEnvironmentVariable("CSHARP_NEXUS_URL")
                 + "/stop"!;
             Log.Information($"Sending stop request to {nexusUrl}");
-            await client.PostAsync(nexusUrl, null);
+
+            try
+            {
+                var response = await client.PostAsync(nexusUrl, content);
+                Log.Information($"Response from Nexus: {response.StatusCode}");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error sending stop request to Nexus: {@ex}", ex);
+                return StatusCode(500, "Error contacting Nexus service.");
+            }
 
             return Ok(sessionToken.StopMessage());
         }
 
-        [HttpPost("run")]
+        [HttpPost("agent/run")]
         public async Task<IActionResult> RunAgentAsync([FromBody] RunAgentRequest body)
         {
             Log.Information("StartAgent called with body: {Body}", body);
