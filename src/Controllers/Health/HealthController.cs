@@ -1,6 +1,7 @@
 //path: src\Controllers\Health\HealthController.cs
 
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Neurocache.Gateway.Controllers.Health
 {
@@ -8,12 +9,11 @@ namespace Neurocache.Gateway.Controllers.Health
     [Route("health")]
     public class HealthController : ControllerBase
     {
-        const string message = "Neurocache Gateway is healthy!";
-
         [HttpGet]
         public IActionResult Get()
         {
-            Console.WriteLine(message);
+            var message = "Csharp Gateway is healthy!";
+            Log.Information(message);
             return Ok(message);
         }
     }

@@ -6,8 +6,8 @@ namespace Neurocache.Gateway.Utilities
 {
     public static class StringUtils
     {
-        public static string NexusRoute(string nexusName, string endpoint)
-        => $"http://{nexusName}-nexus.neurocache.internal/{endpoint}";
+        // public static string NexusRoute(string nexusName, string endpoint)
+        // => $"http://{nexusName}-nexus.neurocache.koyeb/{endpoint}";
 
         public static string StartMessage(this string id, string prompt)
         {

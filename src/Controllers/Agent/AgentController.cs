@@ -28,7 +28,8 @@ namespace Neurocache.Gateway.Controllers.Agent
 
             using var client = new HttpClient();
 
-            var nexusUrl = StringUtils.NexusRoute("csharp", "kill");
+            var nexusUrl = Environment.GetEnvironmentVariable("CSHARP_NEXUS_URL")
+                + "/kill"!;
             Log.Information($"Sending kill request to {nexusUrl}");
             await client.PostAsync(nexusUrl, null);
 
@@ -50,7 +51,8 @@ namespace Neurocache.Gateway.Controllers.Agent
                 "application/json"
             );
 
-            var nexusUrl = StringUtils.NexusRoute("csharp", "stop");
+            var nexusUrl = Environment.GetEnvironmentVariable("CSHARP_NEXUS_URL")
+                + "/stop"!;
             Log.Information($"Sending stop request to {nexusUrl}");
             await client.PostAsync(nexusUrl, null);
 
