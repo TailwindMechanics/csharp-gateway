@@ -1,13 +1,13 @@
-csharp-gateway
+dotnet_client_shuttle
 ├─ .editorconfig
 ├─ .env
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
-├─ csharp-gateway.csproj
-├─ csharp-gateway.sln
 ├─ docker-compose.yml
 ├─ Dockerfile
+├─ dotnet_client_shuttle.csproj
+├─ dotnet_client_shuttle.sln
 ├─ Program.cs
 ├─ project-hierarchy.txt
 ├─ Properties

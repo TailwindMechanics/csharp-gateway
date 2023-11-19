@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csharp-gateway", "csharp-gateway.csproj", "{3F8013CF-7C3E-42DC-8E80-860F13DFDEA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet_client_shuttle", "dotnet_client_shuttle.csproj", "{3F8013CF-7C3E-42DC-8E80-860F13DFDEA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

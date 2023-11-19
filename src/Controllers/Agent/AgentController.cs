@@ -6,11 +6,11 @@ using System.Text;
 using Supabase;
 using Serilog;
 
-using Neurocache.Gateway.Utilities;
-using Neurocache.Gateway.Schema;
+using Neurocache.Utilities;
+using Neurocache.Schema;
 using System.Net;
 
-namespace Neurocache.Gateway.Controllers.Agent
+namespace Neurocache.Controllers.Agent
 {
     [ApiController]
     public class AgentController : ControllerBase

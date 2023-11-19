@@ -1,6 +1,6 @@
 //path: src\Schema\NodeData.cs
 
-namespace Neurocache.Gateway.Schema
+namespace Neurocache.Schema
 {
     public class NodeData
     {

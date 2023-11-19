@@ -1,6 +1,6 @@
 //path: src\Schema\RunAgentRequest.cs
 
-namespace Neurocache.Gateway.Schema
+namespace Neurocache.Schema
 {
     public record RunAgentRequest(string AgentId, string Prompt);
 }

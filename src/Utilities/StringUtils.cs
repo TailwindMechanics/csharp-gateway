@@ -2,7 +2,7 @@
 
 using Serilog;
 
-namespace Neurocache.Gateway.Utilities
+namespace Neurocache.Utilities
 {
     public static class StringUtils
     {

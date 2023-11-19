@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using Supabase;
 using Serilog;
 
-using Neurocache.Gateway.Schema;
+using Neurocache.Schema;
 
-namespace Neurocache.Gateway.Utilities
+namespace Neurocache.Utilities
 {
     public static class AgentUtils
     {

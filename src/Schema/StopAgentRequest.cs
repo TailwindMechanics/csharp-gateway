@@ -1,6 +1,6 @@
 //path: src\Schema\StopAgentRequest.cs
 
-namespace Neurocache.Gateway.Schema
+namespace Neurocache.Schema
 {
     public record StopAgentRequest(string SessionToken);
 }

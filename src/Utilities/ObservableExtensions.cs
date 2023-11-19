@@ -3,7 +3,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace Neurocache.Gateway.Utilities
+namespace Neurocache.Utilities
 {
     public static class ObservableExtensions
     {
