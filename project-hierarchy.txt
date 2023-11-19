@@ -17,22 +17,24 @@ dotnet_client_shuttle
 ├─ rootGrouper.js
 └─ src
    ├─ Controllers
-   │  └─ Agent
-   │     ├─ AgentController.cs
-   │     └─ Internal
-   │        └─ PushStreamResult.cs
+   │  ├─ Controller.cs
+   │  ├─ HealthController.cs
+   │  ├─ PushStreamResult.cs
+   │  └─ RootController.cs
    ├─ Schema
    │  ├─ AgentGraphData.cs
    │  ├─ Edge.cs
    │  ├─ Handle.cs
    │  ├─ Node.cs
    │  ├─ NodeData.cs
-   │  ├─ RunAgentRequest.cs
+   │  ├─ OperationRequestData.cs
    │  ├─ StartAgentRequest.cs
    │  ├─ StopAgentRequest.cs
    │  └─ Viewport.cs
-   └─ Utilities
-      ├─ AgentUtils.cs
-      ├─ Keys.cs
-      ├─ ObservableExtensions.cs
-      └─ StringUtils.cs
+   ├─ Utilities
+   │  ├─ AgentUtils.cs
+   │  ├─ Keys.cs
+   │  ├─ ObservableExtensions.cs
+   │  └─ VesselInfo.cs
+   └─ Vanguard
+      └─ VanguardNotice.cs

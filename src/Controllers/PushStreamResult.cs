@@ -1,29 +1,24 @@
-//path: src\Controllers\Agent\Internal\PushStreamResult.cs
+//path: src\Controllers\PushStreamResult.cs
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Neurocache.Controllers.Agent
 {
-    public class PushStreamResult : IActionResult
+    public class OperationChannel(
+        Func<Stream, HttpContext, Task> onStreaming,
+        string contentType
+    ) : IActionResult
     {
-        private readonly Func<Stream, HttpContext, Task> _onStreaming;
-        private readonly string _contentType;
-
-        public PushStreamResult(Func<Stream, HttpContext, Task> onStreaming, string contentType)
-        {
-            _onStreaming = onStreaming;
-            _contentType = contentType;
-        }
+        readonly Func<Stream, HttpContext, Task> onStreaming = onStreaming;
+        readonly string contentType = contentType;
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
             var response = context.HttpContext.Response;
-            response.ContentType = _contentType;
+            response.ContentType = contentType;
 
-            await using (var stream = response.Body)
-            {
-                await _onStreaming(stream, context.HttpContext);
-            }
+            await using var stream = response.Body;
+            await onStreaming(stream, context.HttpContext);
         }
     }
 }
