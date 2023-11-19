@@ -8,7 +8,6 @@ using Serilog;
 
 using Neurocache.Utilities;
 using Neurocache.Schema;
-using System.Net;
 
 namespace Neurocache.Controllers.Agent
 {
@@ -19,22 +18,6 @@ namespace Neurocache.Controllers.Agent
 
         public AgentController(Client supabaseClient)
             => this.supabaseClient = supabaseClient;
-
-        [HttpGet("ping")]
-        public async Task<IActionResult> Ping()
-        {
-            using var client = new HttpClient();
-            var nexusUrl = Environment.GetEnvironmentVariable("CSHARP_NEXUS_URL")
-                + "/ping"!;
-            Log.Information($"Sending Ping to {nexusUrl}");
-            var response = await client.GetAsync(nexusUrl);
-
-            return response.StatusCode switch
-            {
-                HttpStatusCode.OK => Ok("Pong"),
-                _ => StatusCode(500, "Error contacting Nexus service.")
-            };
-        }
 
         [HttpGet("/")]
         public IActionResult Root()
