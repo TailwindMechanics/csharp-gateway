@@ -21,7 +21,8 @@
     "Obj": "Packages",
     "Health": "Tools",
     "Agent": "Robot",
-    "Root": "Base"
+    "Root": "Base",
+    "Vanguard": "Admin"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"
