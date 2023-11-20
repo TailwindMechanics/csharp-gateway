@@ -1,6 +1,7 @@
 // path: /Program.cs
 
 using dotenv.net;
+using Neurocache.Utilities;
 using Serilog;
 
 IDictionary<string, string>? envVars = null;
@@ -37,11 +38,11 @@ var app = builder.Build();
     var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
     lifetime.ApplicationStarted.Register(() =>
     {
-        Log.Information("<--- Csharp Gateway Started --->");
+        Log.Information($"<--- {VesselInfo.ThisVessel}: Online --->");
     });
     lifetime.ApplicationStopping.Register(() =>
     {
-        Log.Information("<--- Csharp Gateway Stopped --->");
+        Log.Information($"<--- {VesselInfo.ThisVessel}: Offline --->");
         Log.CloseAndFlush();
     });
 

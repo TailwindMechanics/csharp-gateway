@@ -13,7 +13,7 @@ namespace Neurocache.src.Controllers
         [HttpGet("health")]
         public IActionResult Health()
         {
-            var message = $"{VesselInfo.VesselName}: All systems nominal.";
+            var message = $"{VesselInfo.ThisVessel}: All systems normal.";
             Log.Information(message);
             return Ok(message);
         }
