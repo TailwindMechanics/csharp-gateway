@@ -22,7 +22,11 @@
     "Health": "Tools",
     "Agent": "Robot",
     "Root": "Base",
-    "Vanguard": "Admin"
+    "Vanguard": "Admin",
+    "Envars": "Secure",
+    "ConduitFrigate": "Routes",
+    "LogbookFrigate": "Log",
+    "Lifetime": "Generator"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"
