@@ -2,7 +2,7 @@
 
 using Serilog;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 
 namespace Neurocache.Lifetime
 {
@@ -13,14 +13,14 @@ namespace Neurocache.Lifetime
             var lifetime = serviceProvider.GetRequiredService<IHostApplicationLifetime>();
             lifetime.ApplicationStarted.Register(() =>
             {
+                Ships.Log("Online");
                 onStarted?.Invoke();
-                Log.Information($"<--- {VesselInfo.ThisVessel}: Online --->");
             });
             lifetime.ApplicationStopping.Register(() =>
             {
-                onEnded?.Invoke();
-                Log.Information($"<--- {VesselInfo.ThisVessel}: Offline --->");
+                Ships.Log("Offline");
                 Log.CloseAndFlush();
+                onEnded?.Invoke();
             });
         }
     }

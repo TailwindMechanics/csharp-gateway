@@ -1,29 +1,45 @@
 //path: src\LogbookFrigate\Logbook.cs
 
+using Serilog.Sinks.Elasticsearch;
 using Serilog.Core;
 using Serilog;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 
 namespace Neurocache.LogbookFrigate
 {
     public static class Logbook
     {
-        public static Logger CreateLogger()
+        public static Logger SystemLogger()
+            => CreateLogger("system_logs", $"{Ships.FleetName}");
+
+        public static Logger ShipLogger()
         {
-            var enviornment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var apiKey = Environment.GetEnvironmentVariable("DATADOG_API_KEY");
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
+            return CreateLogger("ships_log", $"{Ships.FleetName}");
+        }
+
+        static Logger CreateLogger(string category, string index)
+        {
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
+
+            var username = Environment.GetEnvironmentVariable("ELASTIC_USERNAME")!;
+            var password = Environment.GetEnvironmentVariable("ELASTIC_PASSWORD")!;
+            var uri = Environment.GetEnvironmentVariable("ELASTIC_URI")!;
 
             return new LoggerConfiguration()
-                .WriteTo.DatadogLogs(
-                    apiKey: apiKey,
-                    source: VesselInfo.FleetName,
-                    service: VesselInfo.ThisVessel,
-                    host: enviornment,
-                    tags: [$"env:{enviornment}"]
-                )
-                .WriteTo.Console()
-                .CreateLogger();
+            .Enrich.WithProperty("Category", category)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(uri))
+            {
+                AutoRegisterTemplate = true,
+                IndexFormat = index,
+                ModifyConnectionSettings = x => x.BasicAuthentication(
+                    username, password
+                ),
+            })
+            .CreateLogger();
         }
     }
 }

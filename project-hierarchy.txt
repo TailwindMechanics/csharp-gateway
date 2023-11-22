@@ -16,6 +16,8 @@ dotnet_client_shuttle
 ├─ root
 ├─ rootGrouper.js
 └─ src
+   ├─ Client
+   │  └─ ClientOperation.cs
    ├─ ConduitFrigate
    │  └─ Conduit.cs
    ├─ Controllers
@@ -23,8 +25,6 @@ dotnet_client_shuttle
    │  ├─ HealthController.cs
    │  ├─ OperationChannel.cs
    │  └─ RootController.cs
-   ├─ Envars
-   │  └─ EnvironmentVariables.cs
    ├─ Lifetime
    │  └─ Lifetime.cs
    ├─ LogbookFrigate
@@ -33,9 +33,10 @@ dotnet_client_shuttle
    │  ├─ OperationData.cs
    │  ├─ StartAgentRequest.cs
    │  └─ StopAgentRequest.cs
+   ├─ ShipsInfo
+   │  └─ Ships.cs
    ├─ Utilities
    │  ├─ Keys.cs
-   │  ├─ ObservableExtensions.cs
-   │  └─ VesselInfo.cs
+   │  └─ ObservableExtensions.cs
    └─ Vanguard
       └─ VanguardNotice.cs

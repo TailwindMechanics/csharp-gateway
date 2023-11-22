@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Text;
 using Serilog;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 using Neurocache.Schema;
 
 namespace Neurocache.Vanguard
@@ -31,8 +31,8 @@ namespace Neurocache.Vanguard
         static async Task<HttpResponseMessage> VanguardResponse(HttpRequestMessage request)
         {
             var response = await httpClient.SendAsync(request);
-            if (response.IsSuccessStatusCode) Log.Warning($"{VesselInfo.VanguardName}: Denied");
-            else Log.Information($"{VesselInfo.VanguardName}: Approved");
+            if (response.IsSuccessStatusCode) Log.Warning($"{Ships.Vanguard}: Denied");
+            else Log.Information($"{Ships.Vanguard}: Approved");
             return response;
         }
 

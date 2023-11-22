@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Confluent.Kafka;
 using System.Reactive;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 using Neurocache.Schema;
 
 namespace Neurocache.ConduitFrigate
@@ -65,7 +65,7 @@ namespace Neurocache.ConduitFrigate
             return new()
             {
                 BootstrapServers = bootstrapServers,
-                GroupId = VesselInfo.ThisVessel,
+                GroupId = Ships.ThisVessel,
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,

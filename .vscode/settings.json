@@ -26,7 +26,8 @@
     "Envars": "Secure",
     "ConduitFrigate": "Routes",
     "LogbookFrigate": "Log",
-    "Lifetime": "Generator"
+    "Lifetime": "Generator",
+    "ShipsInfo": "Delta",
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

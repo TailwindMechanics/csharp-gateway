@@ -1,4 +1,4 @@
-
+//path: src\Client\ClientOperation.cs
 
 using Neurocache.Schema;
 

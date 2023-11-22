@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 
 namespace Neurocache.src.Controllers
 {
@@ -12,7 +12,7 @@ namespace Neurocache.src.Controllers
         [HttpGet("/")]
         public IActionResult Root()
         {
-            var message = $"{VesselInfo.ThisVessel}: Acknowledged.";
+            var message = $"{Ships.ThisVessel}: Acknowledged.";
             Console.WriteLine(message);
             return Ok(message);
         }

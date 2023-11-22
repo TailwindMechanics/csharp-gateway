@@ -17,11 +17,14 @@ var builder = WebApplication.CreateBuilder(args);
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
     builder.Services.AddSingleton(Conduit.DownlinkConfig);
+
+    builder.Logging.ClearProviders();
+    builder.Logging.AddSerilog(Logbook.SystemLogger());
+    Log.Logger = Logbook.ShipLogger();
 }
 
 var app = builder.Build();
 {
-    Log.Logger = Logbook.CreateLogger();
     app.MapControllers();
     new Lifetime().Subscribe(app.Services);
     app.Run();

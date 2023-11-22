@@ -1,9 +1,8 @@
 //path: src\Controllers\HealthController.cs
 
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
-using Neurocache.Utilities;
+using Neurocache.ShipsInfo;
 
 namespace Neurocache.src.Controllers
 {
@@ -13,9 +12,8 @@ namespace Neurocache.src.Controllers
         [HttpGet("health")]
         public IActionResult Health()
         {
-            var message = $"{VesselInfo.ThisVessel}: All systems normal.";
-            Log.Information(message);
-            return Ok(message);
+            Ships.Log("All systems normal");
+            return Ok();
         }
     }
 }
