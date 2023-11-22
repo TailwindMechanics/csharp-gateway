@@ -7,7 +7,6 @@ using Neurocache.ConduitFrigate;
 using Neurocache.LogkeepFrigate;
 using Neurocache.Lifetime;
 
-
 var builder = WebApplication.CreateBuilder(args);
 {
     DotEnv.Fluent().WithEnvFiles().WithOverwriteExistingVars()

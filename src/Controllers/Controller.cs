@@ -8,7 +8,7 @@ using Neurocache.ShipsInfo;
 using Neurocache.Utilities;
 using Neurocache.Schema;
 
-namespace Neurocache.Controllers.Agent
+namespace Neurocache.Controllers
 {
     [ApiController]
     public class Controller(

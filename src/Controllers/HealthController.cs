@@ -2,8 +2,6 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Neurocache.ShipsInfo;
-
 namespace Neurocache.src.Controllers
 {
     [ApiController]
@@ -11,9 +9,6 @@ namespace Neurocache.src.Controllers
     {
         [HttpGet("health")]
         public IActionResult Health()
-        {
-            Ships.Log("All systems normal");
-            return Ok();
-        }
+            => Ok();
     }
 }
