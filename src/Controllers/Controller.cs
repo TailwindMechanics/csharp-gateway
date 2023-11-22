@@ -24,7 +24,7 @@ namespace Neurocache.Controllers.Agent
         }
 
         [HttpPost("agent/stop")]
-        public IActionResult StopAgent([FromBody] StopAgentRequest body)
+        public IActionResult Stop([FromBody] StopAgentRequest body)
         {
             if (!Keys.Guard(Request)) return Unauthorized();
 
@@ -34,7 +34,7 @@ namespace Neurocache.Controllers.Agent
         }
 
         [HttpPost("agent/run")]
-        public async Task<IActionResult> RunAgentAsync([FromBody] OperationRequestData operationRequest)
+        public async Task<IActionResult> Run([FromBody] OperationRequestData operationRequest)
         {
             if (!Keys.Guard(Request, out var apiKey)) return Unauthorized();
 
