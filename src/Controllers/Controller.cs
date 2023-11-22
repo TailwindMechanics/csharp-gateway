@@ -2,30 +2,34 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using Neurocache.OperationChannels;
 using Neurocache.Utilities;
 using Neurocache.Schema;
-using Neurocache.Client;
+using Confluent.Kafka;
 
 namespace Neurocache.Controllers.Agent
 {
     [ApiController]
-    public class Controller : ControllerBase
+    public class Controller(
+        IConsumer<string, OperationReport> downlink
+    ) : ControllerBase
     {
         [HttpPost("agent/kill")]
-        public async Task<IActionResult> Kill()
+        public IActionResult Kill()
         {
             if (!Keys.Guard(Request)) return Unauthorized();
 
-            await Task.Delay(1000);
-            return Ok("Killed");
+            OperationChannelService.Instance.KillAll();
+            return Ok();
         }
 
         [HttpPost("agent/stop")]
-        public async Task<IActionResult> StopAgent([FromBody] StopAgentRequest body)
+        public IActionResult StopAgent([FromBody] StopAgentRequest body)
         {
             if (!Keys.Guard(Request)) return Unauthorized();
 
-            await Task.Delay(1000);
+            var tokenGuid = Guid.Parse(body.SessionToken);
+            OperationChannelService.Instance.StopOperationChannel(tokenGuid);
             return Ok();
         }
 
@@ -37,13 +41,10 @@ namespace Neurocache.Controllers.Agent
             var operationToken = await Vanguard.Notice.OperationRequest(apiKey, operationRequest);
             if (operationToken is null) return Unauthorized();
 
-            return new OperationChannel(
-                async (stream, httpContext) =>
-                    await ClientOperation.OperationChannel(
-                        operationToken,
-                        stream,
-                        httpContext
-                    ), "text/event-stream"
+            return OperationChannelService.Instance.StartOperationChannel(
+                downlink,
+                operationToken,
+                operationRequest.AgentId
             );
         }
     }
