@@ -1,4 +1,4 @@
-//path: src\Controllers\OperationChannel.cs
+//path: src\OperationChannels\OperationChannel.cs
 
 using Microsoft.AspNetCore.Mvc;
 using System.Reactive.Linq;

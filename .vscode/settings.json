@@ -23,6 +23,7 @@
     "Agent": "Robot",
     "Root": "Base",
     "Vanguard": "Admin",
+    "OperationChannels": "Interface",
     "Envars": "Secure",
     "ConduitFrigate": "Routes",
     "LogkeepFrigate": "Log",

@@ -16,19 +16,19 @@ dotnet_client_shuttle
 ├─ root
 ├─ rootGrouper.js
 └─ src
-   ├─ Client
-   │  └─ ClientOperation.cs
    ├─ ConduitFrigate
    │  └─ Conduit.cs
    ├─ Controllers
    │  ├─ Controller.cs
    │  ├─ HealthController.cs
-   │  ├─ OperationChannel.cs
    │  └─ RootController.cs
    ├─ Lifetime
    │  └─ Lifetime.cs
    ├─ LogkeepFrigate
    │  └─ Logbook.cs
+   ├─ OperationChannels
+   │  ├─ OperationChannel.cs
+   │  └─ OperationChannelService.cs
    ├─ Schema
    │  ├─ OperationData.cs
    │  ├─ StartAgentRequest.cs
