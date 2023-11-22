@@ -1,10 +1,10 @@
 //path: src\Controllers\Controller.cs
 
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 using Neurocache.Utilities;
 using Neurocache.Schema;
+using Neurocache.Client;
 
 namespace Neurocache.Controllers.Agent
 {
@@ -39,37 +39,12 @@ namespace Neurocache.Controllers.Agent
 
             return new OperationChannel(
                 async (stream, httpContext) =>
-                    await ClientOperationChannel(
+                    await ClientOperation.OperationChannel(
                         operationToken,
                         stream,
                         httpContext
                     ), "text/event-stream"
             );
-        }
-
-        public async Task ClientOperationChannel(OperationToken operationToken, Stream stream, HttpContext httpContext)
-        {
-            var writer = new StreamWriter(stream) { AutoFlush = true };
-            var taskToken = new TaskCompletionSource<bool>();
-            while (!httpContext.RequestAborted.IsCancellationRequested)
-            {
-                UpdateLoop();
-
-                await taskToken.Task;
-            }
-
-            void UpdateLoop()
-            {
-
-            }
-        }
-
-
-        async Task Emit(StreamWriter writer, string emission)
-        {
-            Log.Information(emission);
-            await writer.WriteLineAsync($"data: {emission}");
-            await writer.FlushAsync();
         }
     }
 }

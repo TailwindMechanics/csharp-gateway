@@ -12,7 +12,7 @@ namespace Neurocache.src.Controllers
         [HttpGet("/")]
         public IActionResult Root()
         {
-            var message = $"{VesselInfo.VesselName}: Acknowledged.";
+            var message = $"{VesselInfo.ThisVessel}: Acknowledged.";
             Console.WriteLine(message);
             return Ok(message);
         }

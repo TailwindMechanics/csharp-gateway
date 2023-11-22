@@ -1,4 +1,4 @@
-//path: src\Controllers\PushStreamResult.cs
+//path: src\Controllers\OperationChannel.cs
 
 using Microsoft.AspNetCore.Mvc;
 

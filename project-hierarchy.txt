@@ -16,23 +16,24 @@ dotnet_client_shuttle
 ├─ root
 ├─ rootGrouper.js
 └─ src
+   ├─ ConduitFrigate
+   │  └─ Conduit.cs
    ├─ Controllers
    │  ├─ Controller.cs
    │  ├─ HealthController.cs
-   │  ├─ PushStreamResult.cs
+   │  ├─ OperationChannel.cs
    │  └─ RootController.cs
+   ├─ Envars
+   │  └─ EnvironmentVariables.cs
+   ├─ Lifetime
+   │  └─ Lifetime.cs
+   ├─ LogbookFrigate
+   │  └─ Logbook.cs
    ├─ Schema
-   │  ├─ AgentGraphData.cs
-   │  ├─ Edge.cs
-   │  ├─ Handle.cs
-   │  ├─ Node.cs
-   │  ├─ NodeData.cs
-   │  ├─ OperationRequestData.cs
+   │  ├─ OperationData.cs
    │  ├─ StartAgentRequest.cs
-   │  ├─ StopAgentRequest.cs
-   │  └─ Viewport.cs
+   │  └─ StopAgentRequest.cs
    ├─ Utilities
-   │  ├─ AgentUtils.cs
    │  ├─ Keys.cs
    │  ├─ ObservableExtensions.cs
    │  └─ VesselInfo.cs

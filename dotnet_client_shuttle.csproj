@@ -13,8 +13,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="BetterStack.Logs.Serilog" Version="1.0.0" />
+    <PackageReference Include="Serilog.Sinks.Datadog.Logs" Version="0.5.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Confluent.Kafka" Version="2.3.0" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
     <PackageReference Include="dotenv.net" Version="3.1.3" />
