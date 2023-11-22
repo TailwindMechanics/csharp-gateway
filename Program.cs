@@ -4,7 +4,7 @@ using dotenv.net;
 using Serilog;
 
 using Neurocache.ConduitFrigate;
-using Neurocache.LogbookFrigate;
+using Neurocache.LogkeepFrigate;
 using Neurocache.Lifetime;
 
 
@@ -19,8 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton(Conduit.DownlinkConfig);
 
     builder.Logging.ClearProviders();
-    builder.Logging.AddSerilog(Logbook.SystemLogger());
-    Log.Logger = Logbook.ShipLogger();
+    builder.Logging.AddSerilog(Logkeep.SystemLogger());
+    Log.Logger = Logkeep.ShipLogger();
 }
 
 var app = builder.Build();

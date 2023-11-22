@@ -27,7 +27,7 @@ dotnet_client_shuttle
    │  └─ RootController.cs
    ├─ Lifetime
    │  └─ Lifetime.cs
-   ├─ LogbookFrigate
+   ├─ LogkeepFrigate
    │  └─ Logbook.cs
    ├─ Schema
    │  ├─ OperationData.cs

@@ -1,4 +1,4 @@
-//path: src\LogbookFrigate\Logbook.cs
+//path: src\LogkeepFrigate\Logbook.cs
 
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Core;
@@ -6,9 +6,9 @@ using Serilog;
 
 using Neurocache.ShipsInfo;
 
-namespace Neurocache.LogbookFrigate
+namespace Neurocache.LogkeepFrigate
 {
-    public static class Logbook
+    public static class Logkeep
     {
         public static Logger SystemLogger()
             => CreateLogger("system_logs", $"{Ships.FleetName}");
