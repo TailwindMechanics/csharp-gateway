@@ -17,7 +17,8 @@ dotnet_client_shuttle
 ├─ rootGrouper.js
 └─ src
    ├─ ConduitFrigate
-   │  └─ Conduit.cs
+   │  ├─ Conduit.cs
+   │  └─ Serializers.cs
    ├─ Controllers
    │  ├─ Controller.cs
    │  ├─ HealthController.cs

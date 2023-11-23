@@ -15,9 +15,12 @@ namespace Neurocache.ConduitFrigate
     {
         public static IProducer<string, OperationReport> UplinkProducer
             => new ProducerBuilder<string, OperationReport>(UplinkConfig)
+                .SetValueSerializer(new JsonOperationReportSerializer())
                 .Build();
+
         public static IConsumer<string, OperationReport> DownlinkBuilder
             => new ConsumerBuilder<string, OperationReport>(DownlinkConsumer)
+                .SetValueDeserializer(new JsonOperationReportDeserializer())
                 .Build();
 
         public static ProducerConfig UplinkConfig
