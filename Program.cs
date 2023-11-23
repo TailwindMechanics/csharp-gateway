@@ -1,4 +1,4 @@
-// path: /Program.cs
+//path: Program.cs
 
 using dotenv.net;
 using Serilog;
@@ -15,7 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
     var port = Environment.GetEnvironmentVariable("PORT");
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
-    builder.Services.AddSingleton(Conduit.DownlinkConfig);
+
+    builder.Services.AddSingleton(Conduit.DownlinkConsumer);
 
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(Logkeep.SystemLogger());

@@ -13,9 +13,16 @@ namespace Neurocache.ConduitFrigate
 {
     public static class Conduit
     {
+        public static IProducer<string, OperationReport> UplinkProducer
+            => new ProducerBuilder<string, OperationReport>(UplinkConfig)
+                .Build();
+        public static IConsumer<string, OperationReport> DownlinkBuilder
+            => new ConsumerBuilder<string, OperationReport>(DownlinkConsumer)
+                .Build();
+
         public static ProducerConfig UplinkConfig
             => CreateProducer();
-        public static ConsumerConfig DownlinkConfig
+        public static ConsumerConfig DownlinkConsumer
             => CreateConsumer();
 
         public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
