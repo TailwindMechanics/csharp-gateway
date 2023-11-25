@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
 
-    builder.Services.AddSingleton(Conduit.DownlinkConsumer);
+    builder.Services.AddSingleton(_ => Conduit.DownlinkConsumer);
 
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(Logkeep.SystemLogger());

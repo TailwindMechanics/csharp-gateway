@@ -1,4 +1,4 @@
-//path: src\LogkeepFrigate\Logbook.cs
+//path: src\LogkeepFrigate\Logkeep.cs
 
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Core;

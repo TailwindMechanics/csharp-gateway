@@ -13,20 +13,18 @@ namespace Neurocache.ConduitFrigate
 {
     public static class Conduit
     {
+        private static readonly ProducerConfig uplinkConfig = CreateProducer();
+        private static readonly ConsumerConfig downlinkConfig = CreateConsumer();
+
+        public static IConsumer<string, OperationReport> DownlinkConsumer
+        => new ConsumerBuilder<string, OperationReport>(downlinkConfig)
+            .SetValueDeserializer(new JsonOperationReportDeserializer())
+            .Build();
+
         public static IProducer<string, OperationReport> UplinkProducer
-            => new ProducerBuilder<string, OperationReport>(UplinkConfig)
+            => new ProducerBuilder<string, OperationReport>(uplinkConfig)
                 .SetValueSerializer(new JsonOperationReportSerializer())
                 .Build();
-
-        public static IConsumer<string, OperationReport> DownlinkBuilder
-            => new ConsumerBuilder<string, OperationReport>(DownlinkConsumer)
-                .SetValueDeserializer(new JsonOperationReportDeserializer())
-                .Build();
-
-        public static ProducerConfig UplinkConfig
-            => CreateProducer();
-        public static ConsumerConfig DownlinkConsumer
-            => CreateConsumer();
 
         public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
         {
@@ -41,9 +39,10 @@ namespace Neurocache.ConduitFrigate
                 }));
         }
 
-        public static async void Uplink(string topic, IProducer<string, OperationReport> uplink, OperationReport operationReport, CancellationToken cancelToken)
+        public static async void Uplink(string topic, OperationReport operationReport, CancellationToken cancelToken)
         {
-            await CreateTopicIfNotExist(UplinkConfig, topic);
+            await CreateTopicIfNotExist(uplinkConfig, topic);
+            using var uplink = new ProducerBuilder<string, OperationReport>(uplinkConfig).Build();
             await uplink.ProduceAsync(topic, new Message<string, OperationReport>
             {
                 Key = operationReport.Token,

@@ -1,6 +1,6 @@
 //path: src\Utilities\Keys.cs
 
-using Serilog;
+using Neurocache.ShipsInfo;
 
 namespace Neurocache.Utilities
 {
@@ -13,7 +13,7 @@ namespace Neurocache.Utilities
         {
             if (!Guid.TryParse(request.Headers["apikey"], out apiKey))
             {
-                Log.Information("Unauthorized: Invalid API Key format");
+                Ships.Log("Unauthorized: Invalid API Key format");
                 return false;
             }
 

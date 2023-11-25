@@ -41,13 +41,17 @@ namespace Neurocache.Controllers
         [HttpPost("agent/run")]
         public async Task<IActionResult> Run([FromBody] OperationRequestData operationRequest)
         {
+            Ships.Log($"Received operation request: {operationRequest}");
             if (!Keys.Guard(Request, out var apiKey)) return Unauthorized();
 
-            Ships.Log("Recieved operation request");
+            Ships.Log($"Received request: {Request}");
+            Ships.Log($"Received key: {apiKey}");
 
             var operationToken = await Vanguard.Notice.OperationRequest(apiKey, operationRequest);
+            Ships.Log($"Received operation token: {operationToken}");
             if (operationToken is null) return Unauthorized();
 
+            Ships.Log("Starting operation channel");
             return OperationChannelService.Instance.StartOperationChannel(
                 downlink,
                 operationToken,

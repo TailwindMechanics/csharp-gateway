@@ -27,13 +27,17 @@ namespace Neurocache.OperationChannels
             IConsumer<string, OperationReport> downlink,
             CancellationTokenSource cancelToken,
             OperationToken operationToken,
-            string agentId)
+            string agentId
+        )
         {
+            Ships.Log("OperationChannel/ start");
             this.cancelToken = cancelToken;
 
             downlinkSub = Conduit.Downlink(agentId, downlink, cancelToken.Token)
                 .Where(operationReport => operationReport.Token == operationToken.Token.ToString())
                 .Subscribe(OnReportReceived);
+
+            Ships.Log($"OperationChannel/ downlinkSub: {downlinkSub}");
         }
 
         public async Task ExecuteResultAsync(ActionContext context)
@@ -48,6 +52,7 @@ namespace Neurocache.OperationChannels
                 context.HttpContext.RequestAborted,
                 cancelToken.Token
             ).Token;
+
             while (!combinedToken.IsCancellationRequested)
             {
                 await taskToken.Task.WaitAsync(combinedToken);

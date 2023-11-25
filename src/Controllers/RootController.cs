@@ -1,7 +1,6 @@
 //path: src\Controllers\RootController.cs
 
 using Microsoft.AspNetCore.Mvc;
-
 using Neurocache.ShipsInfo;
 
 namespace Neurocache.src.Controllers
@@ -12,8 +11,8 @@ namespace Neurocache.src.Controllers
         [HttpGet("/")]
         public IActionResult Root()
         {
-            var message = $"{Ships.ThisVessel}: Acknowledged.";
-            Console.WriteLine(message);
+            var message = $"Hello.";
+            Ships.Log(message);
             return Ok(message);
         }
     }
