@@ -36,8 +36,14 @@ namespace Neurocache.Vanguard
         static async Task<HttpResponseMessage> VanguardResponse(HttpRequestMessage request)
         {
             var response = await httpClient.SendAsync(request);
-            if (response.IsSuccessStatusCode) Log.Warning($"Notice.VanguardResponse/ Operation Request Denied");
-            else Log.Information($"Notice.VanguardResponse/ Operation Request Approved");
+            if (response.IsSuccessStatusCode)
+            {
+                Log.Warning($"Notice.VanguardResponse/ Operation Request Rejected");
+            }
+            else
+            {
+                Log.Information($"Notice.VanguardResponse/ Operation Request Approved");
+            }
             return response;
         }
 
