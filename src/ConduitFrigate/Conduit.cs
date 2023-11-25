@@ -52,7 +52,7 @@ namespace Neurocache.ConduitFrigate
 
         static ProducerConfig CreateProducer()
         {
-            var bootstrapServers = Environment.GetEnvironmentVariable("BOTTSTRAP_SERVERS");
+            var bootstrapServers = Environment.GetEnvironmentVariable("BOOTSTRAP_SERVERS");
             var sasslUsername = Environment.GetEnvironmentVariable("SASL_USERNAME");
             var sasslPassword = Environment.GetEnvironmentVariable("SASL_PASSWORD");
             return new()
@@ -67,7 +67,7 @@ namespace Neurocache.ConduitFrigate
 
         static ConsumerConfig CreateConsumer()
         {
-            var bootstrapServers = Environment.GetEnvironmentVariable("BOTTSTRAP_SERVERS");
+            var bootstrapServers = Environment.GetEnvironmentVariable("BOOTSTRAP_SERVERS");
             var sasslUsername = Environment.GetEnvironmentVariable("SASL_USERNAME");
             var sasslPassword = Environment.GetEnvironmentVariable("SASL_PASSWORD");
 
