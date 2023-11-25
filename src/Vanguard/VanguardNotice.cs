@@ -38,11 +38,11 @@ namespace Neurocache.Vanguard
             var response = await httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                Log.Warning($"Notice.VanguardResponse/ Operation Request Rejected");
+                Log.Information($"Notice.VanguardResponse/ Operation Request Approved");
             }
             else
             {
-                Log.Information($"Notice.VanguardResponse/ Operation Request Approved");
+                Log.Warning($"Notice.VanguardResponse/ Operation Request Rejected");
             }
             return response;
         }
