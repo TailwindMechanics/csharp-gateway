@@ -21,6 +21,7 @@ namespace Neurocache.OperationChannels
         {
             cancelToken.Cancel();
             downlinkSub.Dispose();
+            writer?.Dispose();
         }
 
         public OperationChannel(
@@ -46,23 +47,29 @@ namespace Neurocache.OperationChannels
             response.ContentType = "text/event-stream";
 
             await using var stream = response.Body;
-            writer = new StreamWriter(stream) { AutoFlush = true };
-            var taskToken = new TaskCompletionSource<bool>();
+            writer = new StreamWriter(stream);
+
             var combinedToken = CancellationTokenSource.CreateLinkedTokenSource(
                 context.HttpContext.RequestAborted,
                 cancelToken.Token
             ).Token;
 
-            while (!combinedToken.IsCancellationRequested)
+            await Task.Delay(Timeout.Infinite, combinedToken);
+
+            if (writer != null)
             {
-                await taskToken.Task.WaitAsync(combinedToken);
+                await writer.DisposeAsync();
             }
         }
 
         void OnReportReceived(OperationReport operationReport)
         {
             Ships.Log($"Operation report received: {operationReport}");
-            writer?.WriteLine($"data: {operationReport}");
+            if (writer != null)
+            {
+                writer.WriteLine($"data: {operationReport}");
+                writer.FlushAsync();
+            }
         }
     }
 }
