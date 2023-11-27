@@ -1,26 +1,18 @@
 //path: src\ShipsInfo\Ships.cs
 
-using Neurocache.Schema;
-
 namespace Neurocache.ShipsInfo
 {
     public static class Ships
     {
+        public static readonly string ThisVesselName = "dotnet_vanguard_gateway";
+
+        public static readonly string FleetName = "neurocache_fleet";
+        public static readonly string VanguardName = "dotnet_vanguard_gateway";
+
         public static void Log(string message)
             => Serilog.Log.Information($"==> {message}");
 
-        public static readonly string FleetName = "neurocache_fleet";
-        public static readonly Ship ThisVessel = new("dotnet_vanguard_gateway", 5001);
-
-        public static string VanguardAddress()
-            => VesselAddress("dotnet_vanguard_gateway", 5001);
-
-        public static readonly List<string> Cruisers = [
-            "dotnet_cruiser",
-        ];
-
-        public static string VesselAddress(string vessel, int port)
-            => $"http://{vessel}.neurocache.koyeb:{port}"
-                .Replace("_", "-");
+        public static void Warning(string message)
+            => Serilog.Log.Warning($"==> {message}");
     }
 }

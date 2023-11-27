@@ -2,8 +2,11 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Confluent.Kafka;
+using Supabase;
 
+using Neurocache.CentralIntelFrigate;
 using Neurocache.OperationChannels;
+using Neurocache.ConduitFrigate;
 using Neurocache.ShipsInfo;
 using Neurocache.Utilities;
 using Neurocache.Schema;
@@ -12,6 +15,8 @@ namespace Neurocache.Controllers
 {
     [ApiController]
     public class Controller(
+        Client supabaseClient,
+        IProducer<string, OperationReport> uplink,
         IConsumer<string, OperationReport> downlink
     ) : ControllerBase
     {
@@ -44,12 +49,25 @@ namespace Neurocache.Controllers
             Ships.Log($"Received operation request: {operationRequest}");
             if (!Keys.Guard(Request, out var apiKey)) return Unauthorized();
 
-            Ships.Log($"Received request: {Request}");
-            Ships.Log($"Received key: {apiKey}");
 
-            var operationToken = await Vanguard.Notice.OperationRequest(apiKey, operationRequest);
-            Ships.Log($"Received operation token: {operationToken}");
-            if (operationToken is null) return Unauthorized();
+            // --== Old Vanguard ==--
+            Ships.Log($"Operation request received, key: {apiKey}");
+            var operationOutline = await CentralIntel.OperationRequest(
+                operationRequest.AgentId,
+                supabaseClient,
+                apiKey
+            );
+
+            if (operationOutline == null)
+            {
+                Ships.Warning("Operation outline is null");
+                return Unauthorized();
+            }
+
+            await Conduit.EnsureTopicExists(operationRequest.AgentId);
+            var operationToken = new OperationToken(Guid.NewGuid());
+            // --== Old Vanguard ==--
+
 
             Ships.Log("Starting operation channel");
             return OperationChannelService.Instance.StartOperationChannel(

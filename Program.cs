@@ -3,6 +3,7 @@
 using dotenv.net;
 using Serilog;
 
+using Neurocache.CentralIntelFrigate;
 using Neurocache.ConduitFrigate;
 using Neurocache.LogkeepFrigate;
 using Neurocache.Lifetime;
@@ -16,6 +17,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
 
+    builder.Services.AddScoped(_ => CentralIntel.CreateClient());
+
+    builder.Services.AddSingleton(_ => Conduit.UplinkProducer);
     builder.Services.AddSingleton(_ => Conduit.DownlinkConsumer);
 
     builder.Logging.ClearProviders();

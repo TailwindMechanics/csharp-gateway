@@ -1,5 +1,6 @@
 dotnet_vanguard_gateway
 ├─ .editorconfig
+├─ .env
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
@@ -15,6 +16,8 @@ dotnet_vanguard_gateway
 ├─ root
 ├─ rootGrouper.js
 └─ src
+   ├─ CentralIntelFrigate
+   │  └─ CentralIntel.cs
    ├─ ConduitFrigate
    │  ├─ Conduit.cs
    │  └─ Serializers.cs
@@ -30,12 +33,10 @@ dotnet_vanguard_gateway
    │  ├─ OperationChannel.cs
    │  └─ OperationChannelService.cs
    ├─ Schema
+   │  ├─ OperationOutline.cs
    │  ├─ OperationReport.cs
    │  └─ Schema.cs
    ├─ ShipsInfo
    │  └─ Ships.cs
-   ├─ Utilities
-   │  ├─ Keys.cs
-   │  └─ ObservableExtensions.cs
-   └─ Vanguard
-      └─ VanguardNotice.cs
+   └─ Utilities
+      └─ Keys.cs

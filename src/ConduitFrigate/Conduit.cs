@@ -26,6 +26,9 @@ namespace Neurocache.ConduitFrigate
                 .SetValueSerializer(new JsonOperationReportSerializer())
                 .Build();
 
+        public static async Task EnsureTopicExists(string topic)
+            => await CreateTopicIfNotExist(uplinkConfig, topic);
+
         public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
         {
             downlink.Subscribe(topic);
@@ -41,7 +44,6 @@ namespace Neurocache.ConduitFrigate
 
         public static async void Uplink(string topic, OperationReport operationReport, CancellationToken cancelToken)
         {
-            await CreateTopicIfNotExist(uplinkConfig, topic);
             using var uplink = new ProducerBuilder<string, OperationReport>(uplinkConfig).Build();
             await uplink.ProduceAsync(topic, new Message<string, OperationReport>
             {
@@ -74,7 +76,7 @@ namespace Neurocache.ConduitFrigate
             return new()
             {
                 BootstrapServers = bootstrapServers,
-                GroupId = Ships.ThisVessel,
+                GroupId = Ships.ThisVesselName,
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,
@@ -93,7 +95,7 @@ namespace Neurocache.ConduitFrigate
                 {
                     Name = topic,
                     NumPartitions = 1,
-                    ReplicationFactor = 1
+                    ReplicationFactor = 3
                 };
 
                 await adminClient.CreateTopicsAsync(new[] { topicSpecification });

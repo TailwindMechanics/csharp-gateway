@@ -28,7 +28,8 @@
     "ConduitFrigate": "Routes",
     "LogkeepFrigate": "Log",
     "Lifetime": "Generator",
-    "ShipsInfo": "Delta"
+    "ShipsInfo": "Delta",
+    "CentralIntelFrigate": "Client"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"
