@@ -18,13 +18,18 @@ dotnet_vanguard_gateway
 └─ src
    ├─ CentralIntelFrigate
    │  └─ CentralIntel.cs
+   ├─ ClientChannels
+   │  ├─ ClientChannel.cs
+   │  └─ ClientChannelService.cs
    ├─ ConduitFrigate
    │  ├─ Conduit.cs
    │  └─ Serializers.cs
    ├─ Controllers
    │  ├─ Controller.cs
    │  ├─ HealthController.cs
-   │  └─ RootController.cs
+   │  ├─ RootController.cs
+   │  ├─ WebSocketController.cs
+   │  └─ WebSocketService.cs
    ├─ Lifetime
    │  └─ Lifetime.cs
    ├─ LogkeepFrigate

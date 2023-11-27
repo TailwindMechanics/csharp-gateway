@@ -1,4 +1,4 @@
-//path: Program.cs
+// path: Program.cs
 
 using dotenv.net;
 using Serilog;
@@ -17,11 +17,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
 
+    // Register services
     builder.Services.AddScoped(_ => CentralIntel.CreateClient());
-
     builder.Services.AddSingleton(_ => Conduit.UplinkProducer);
     builder.Services.AddSingleton(_ => Conduit.DownlinkConsumer);
 
+    // Logging
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(Logkeep.SystemLogger());
     Log.Logger = Logkeep.ShipLogger();
@@ -29,6 +30,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseWebSockets();
+
     app.MapControllers();
     new Lifetime().Subscribe(app.Services);
     app.Run();

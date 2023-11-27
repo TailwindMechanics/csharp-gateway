@@ -19,5 +19,16 @@ namespace Neurocache.Utilities
 
             return true;
         }
+
+        public static bool Guard(string keyString, out Guid apiKey)
+        {
+            if (!Guid.TryParse(keyString, out apiKey))
+            {
+                Ships.Log("Unauthorized: Invalid API Key format");
+                return false;
+            }
+
+            return true;
+        }
     }
 }
