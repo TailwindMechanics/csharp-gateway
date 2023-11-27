@@ -4,6 +4,7 @@ using dotenv.net;
 using Serilog;
 
 using Neurocache.CentralIntelFrigate;
+using Neurocache.RequestsChannel;
 using Neurocache.ConduitFrigate;
 using Neurocache.LogkeepFrigate;
 using Neurocache.Lifetime;
@@ -33,6 +34,14 @@ var app = builder.Build();
     app.UseWebSockets();
 
     app.MapControllers();
-    new Lifetime().Subscribe(app.Services);
+    new Lifetime().Subscribe(app.Services,
+    () =>
+    {
+        RequestsChannelService.OnAppStart();
+    },
+    () =>
+    {
+        RequestsChannelService.OnAppClosing();
+    });
     app.Run();
 }

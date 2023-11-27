@@ -12,6 +12,14 @@ namespace Neurocache.ClientChannels
         readonly Guid operationToken = operationToken;
         readonly WebSocket webSocket = webSocket;
 
+        public void Stop()
+        {
+            Ships.Log($"Stopping client channel for operation token: {operationToken}");
+
+            webSocket.Abort();
+            ClientChannelService.RemoveClientChannel(operationToken);
+        }
+
         public async Task StartCommunication()
         {
             var buffer = new byte[1024 * 4];

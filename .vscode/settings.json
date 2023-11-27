@@ -22,14 +22,15 @@
     "Health": "Tools",
     "Agent": "Robot",
     "Root": "Base",
-    "Vanguard": "Admin",
     "OperationChannels": "Interface",
     "Envars": "Secure",
     "ConduitFrigate": "Routes",
     "LogkeepFrigate": "Log",
     "Lifetime": "Generator",
     "ShipsInfo": "Delta",
-    "CentralIntelFrigate": "Client"
+    "CentralIntelFrigate": "Admin",
+    "ClientChannels": "Client",
+    "RequestsChannel": "Upload"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

@@ -20,23 +20,21 @@ dotnet_vanguard_gateway
    │  └─ CentralIntel.cs
    ├─ ClientChannels
    │  ├─ ClientChannel.cs
-   │  └─ ClientChannelService.cs
+   │  ├─ ClientChannelService.cs
+   │  └─ WebSocketService.cs
    ├─ ConduitFrigate
    │  ├─ Conduit.cs
    │  └─ Serializers.cs
    ├─ Controllers
    │  ├─ Controller.cs
    │  ├─ HealthController.cs
-   │  ├─ RootController.cs
-   │  ├─ WebSocketController.cs
-   │  └─ WebSocketService.cs
+   │  └─ RootController.cs
    ├─ Lifetime
    │  └─ Lifetime.cs
    ├─ LogkeepFrigate
    │  └─ Logkeep.cs
-   ├─ OperationChannels
-   │  ├─ OperationChannel.cs
-   │  └─ OperationChannelService.cs
+   ├─ RequestsChannel
+   │  └─ RequestsChannelService.cs
    ├─ Schema
    │  ├─ OperationOutline.cs
    │  ├─ OperationReport.cs

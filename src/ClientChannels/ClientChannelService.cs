@@ -29,5 +29,24 @@ namespace Neurocache.ClientChannels
                 Ships.Log($"No ClientChannel found for operation token: {operationToken}");
             }
         }
+
+        public static void Stop(Guid operationToken)
+        {
+            if (!clientChannels.TryGetValue(operationToken, out var clientChannel))
+            {
+                Ships.Log($"No ClientChannel found for operation token: {operationToken}");
+                return;
+            }
+
+            clientChannel.Stop();
+        }
+
+        public static void KillAll()
+        {
+            foreach (var clientChannel in clientChannels.Values)
+            {
+                clientChannel.Stop();
+            }
+        }
     }
 }
