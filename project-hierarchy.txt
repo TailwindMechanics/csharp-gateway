@@ -1,13 +1,12 @@
-dotnet_client_shuttle
+dotnet_vanguard_gateway
 ├─ .editorconfig
-├─ .env
 ├─ .gitignore
 ├─ appsettings.json
 ├─ autoCommentPath.js
 ├─ docker-compose.yml
 ├─ Dockerfile
-├─ dotnet_client_shuttle.csproj
-├─ dotnet_client_shuttle.sln
+├─ dotnet_vanguard_gateway.csproj
+├─ dotnet_vanguard_gateway.sln
 ├─ Program.cs
 ├─ project-hierarchy.txt
 ├─ Properties
@@ -31,9 +30,8 @@ dotnet_client_shuttle
    │  ├─ OperationChannel.cs
    │  └─ OperationChannelService.cs
    ├─ Schema
-   │  ├─ OperationData.cs
-   │  ├─ StartAgentRequest.cs
-   │  └─ StopAgentRequest.cs
+   │  ├─ OperationReport.cs
+   │  └─ Schema.cs
    ├─ ShipsInfo
    │  └─ Ships.cs
    ├─ Utilities

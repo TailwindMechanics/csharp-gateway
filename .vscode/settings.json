@@ -10,7 +10,7 @@
   "explorer.fileNesting.expand": false,
   "editor.detectIndentation": false,
   "explorer.fileNesting.patterns": {
-    "root": ".editorconfig, .env, .gitignore, appsettings.json, autoCommentPath.js, docker-compose.yml, Dockerfile, dotnet_client_shuttle.csproj, dotnet_client_shuttle.sln, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js"
+    "root": ".editorconfig, .env, .gitignore, appsettings.json, autoCommentPath.js, docker-compose.yml, Dockerfile, dotnet_vanguard_gateway.csproj, dotnet_vanguard_gateway.sln, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js"
   },
   "material-icon-theme.folders.associations": {
     "Properties": "Utils",
@@ -28,7 +28,7 @@
     "ConduitFrigate": "Routes",
     "LogkeepFrigate": "Log",
     "Lifetime": "Generator",
-    "ShipsInfo": "Delta",
+    "ShipsInfo": "Delta"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

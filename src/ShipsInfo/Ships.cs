@@ -1,5 +1,7 @@
 //path: src\ShipsInfo\Ships.cs
 
+using Neurocache.Schema;
+
 namespace Neurocache.ShipsInfo
 {
     public static class Ships
@@ -8,10 +10,10 @@ namespace Neurocache.ShipsInfo
             => Serilog.Log.Information($"==> {message}");
 
         public static readonly string FleetName = "neurocache_fleet";
-        public static readonly string ThisVessel = "dotnet_client_shuttle";
+        public static readonly Ship ThisVessel = new("dotnet_vanguard_gateway", 5001);
 
         public static string VanguardAddress()
-            => VesselAddress("dotnet_vanguard_starship", 5001);
+            => VesselAddress("dotnet_vanguard_gateway", 5001);
 
         public static readonly List<string> Cruisers = [
             "dotnet_cruiser",

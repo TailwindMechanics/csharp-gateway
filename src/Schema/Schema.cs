@@ -1,4 +1,4 @@
-//path: src\Schema\OperationData.cs
+//path: src\Schema\Schema.cs
 
 namespace Neurocache.Schema
 {
