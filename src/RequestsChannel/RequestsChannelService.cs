@@ -42,10 +42,14 @@ namespace Neurocache.RequestsChannel
                     Ships.Log($"Received operation report: {operationReport}");
                     onDownlinkReceived.OnNext(operationReport);
                 });
+
+            Ships.Log("RequestsChannelService started");
         }
 
         public static void OnAppClosing()
         {
+            Ships.Log("RequestsChannelService closing");
+
             downlinkSub?.Dispose();
             uplinkSub?.Dispose();
         }
