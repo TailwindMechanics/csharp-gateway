@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
     DotEnv.Fluent().WithEnvFiles().WithOverwriteExistingVars()
         .WithProbeForEnv(probeLevelsToSearch: 6).Load();
 
+    // Configure web server
     var port = Environment.GetEnvironmentVariable("PORT");
     builder.WebHost.UseUrls($"http://*:{port}");
     builder.Services.AddControllers();
@@ -32,7 +33,6 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     app.UseWebSockets();
-
     app.MapControllers();
     new Lifetime().Subscribe(app.Services,
     () =>

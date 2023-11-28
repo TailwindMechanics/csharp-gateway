@@ -22,7 +22,7 @@
     "Health": "Tools",
     "Agent": "Robot",
     "Root": "Base",
-    "OperationChannels": "Interface",
+    "Operations": "Interface",
     "Envars": "Secure",
     "ConduitFrigate": "Routes",
     "LogkeepFrigate": "Log",
@@ -30,7 +30,8 @@
     "ShipsInfo": "Delta",
     "CentralIntelFrigate": "Admin",
     "ClientChannels": "Client",
-    "RequestsChannel": "Upload"
+    "RequestsChannel": "Upload",
+    "WebSockets": "Messages"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

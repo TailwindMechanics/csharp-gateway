@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 namespace Neurocache.Schema
 {
     public class OperationReport(
-        string token,
+        Guid token,
         string author,
         string payload,
         bool final,
         List<string> dependents
     )
     {
-        public string Token { get; } = token;
+        public Guid Token { get; } = token;
         public string Author { get; } = author;
         public string Payload { get; } = payload;
         public bool Final { get; } = final;

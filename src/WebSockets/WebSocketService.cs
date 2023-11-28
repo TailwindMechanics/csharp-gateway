@@ -1,13 +1,11 @@
-//path: src\ClientChannels\WebSocketService.cs
-
-// path: src\Services\WebSocketService.cs
+//path: src\WebSockets\WebSocketService.cs
 
 using System.Net.WebSockets;
 using System.Text;
 
 using Neurocache.ShipsInfo;
 
-namespace Neurocache.ClientChannels
+namespace Neurocache.WebSockets
 {
     public class WebSocketService
     {

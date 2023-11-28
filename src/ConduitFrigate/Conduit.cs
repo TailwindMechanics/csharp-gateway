@@ -26,8 +26,8 @@ namespace Neurocache.ConduitFrigate
                 .SetValueSerializer(new JsonOperationReportSerializer())
                 .Build();
 
-        public static async Task EnsureTopicExists(string topic)
-            => await CreateTopicIfNotExist(uplinkConfig, topic);
+        public static async Task EnsureTopicExists(Guid topic)
+            => await CreateTopicIfNotExist(uplinkConfig, topic.ToString());
 
         public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
         {
@@ -47,7 +47,7 @@ namespace Neurocache.ConduitFrigate
             using var uplink = new ProducerBuilder<string, OperationReport>(uplinkConfig).Build();
             await uplink.ProduceAsync(topic, new Message<string, OperationReport>
             {
-                Key = operationReport.Token,
+                Key = operationReport.Token.ToString(),
                 Value = operationReport
             }, cancelToken);
         }

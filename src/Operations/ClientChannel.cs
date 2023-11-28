@@ -1,26 +1,77 @@
-//path: src\ClientChannels\ClientChannel.cs
+//path: src\Operations\ClientChannel.cs
 
+using System.Reactive.Concurrency;
+using System.Reactive.Subjects;
 using System.Net.WebSockets;
+using System.Reactive.Linq;
+using System.Reactive;
+using Newtonsoft.Json;
 using System.Text;
 
 using Neurocache.ShipsInfo;
+using Neurocache.Schema;
 
-namespace Neurocache.ClientChannels
+namespace Neurocache.Operations
 {
     public class ClientChannel(WebSocket webSocket, Guid operationToken)
     {
+        public readonly ISubject<OperationReport> SendReport = new Subject<OperationReport>();
+        readonly Subject<OperationReport> onReportReceived = new();
+        public IObservable<OperationReport> OnReportReceived
+            => onReportReceived;
+
+        readonly Subject<Unit> stop = new();
         readonly Guid operationToken = operationToken;
         readonly WebSocket webSocket = webSocket;
+        IDisposable? sendReportSub;
+
+        public async Task Start()
+        {
+            sendReportSub = SendReport
+                .Where(_ => webSocket.State != WebSocketState.Open)
+                .Select(JsonConvert.SerializeObject)
+                .Where(json => !string.IsNullOrEmpty(json))
+                .ObserveOn(Scheduler.Default)
+                .TakeUntil(stop)
+                .Subscribe(async jsonReport =>
+                {
+                    Ships.Log($"Sending message on operation token {operationToken}: {jsonReport}");
+                    var messageBuffer = Encoding.UTF8.GetBytes(jsonReport);
+                    await webSocket.SendAsync(
+                        new ArraySegment<byte>(messageBuffer),
+                        WebSocketMessageType.Text,
+                        true,
+                        CancellationToken.None
+                    );
+                });
+
+            Ships.Log($"Starting client channel for operation token: {operationToken}");
+
+            await ChannelLoop();
+        }
+
+        void OnMessageReceived(string message)
+        {
+            Ships.Log($"Message received on operation token {operationToken}: {message}");
+            var report = OperationReport.FromJson(message);
+            if (report == null)
+            {
+                Ships.Warning($"Invalid operation report received on operation token {operationToken}: {message}");
+                return;
+            }
+
+            onReportReceived.OnNext(report);
+        }
 
         public void Stop()
         {
             Ships.Log($"Stopping client channel for operation token: {operationToken}");
-
             webSocket.Abort();
-            ClientChannelService.RemoveClientChannel(operationToken);
+            stop.OnNext(Unit.Default);
+            sendReportSub?.Dispose();
         }
 
-        public async Task StartCommunication()
+        async Task ChannelLoop()
         {
             var buffer = new byte[1024 * 4];
             try
@@ -35,8 +86,6 @@ namespace Neurocache.ClientChannels
                         var receivedMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
                         Ships.Log($"Message received on operation token {operationToken}: {receivedMessage}");
                         OnMessageReceived(receivedMessage);
-                        // Echo
-                        await SendMessageAsync($"Vanguard received: {receivedMessage}");
                     }
                     else if (result.MessageType == WebSocketMessageType.Close)
                     {
@@ -58,29 +107,6 @@ namespace Neurocache.ClientChannels
             }
 
             Ships.Log("WebSocket connection closed for operation token: " + operationToken);
-        }
-
-        public async Task SendMessageAsync(string message)
-        {
-            if (webSocket.State != WebSocketState.Open)
-            {
-                Ships.Warning($"WebSocket connection is not open for operation token: {operationToken}");
-                return;
-            }
-
-            Ships.Log($"Sending message on operation token {operationToken}: {message}");
-            var messageBuffer = Encoding.UTF8.GetBytes(message);
-            await webSocket.SendAsync(
-                new ArraySegment<byte>(messageBuffer),
-                WebSocketMessageType.Text,
-                true,
-                CancellationToken.None
-            );
-        }
-
-        void OnMessageReceived(string message)
-        {
-            Ships.Log($"Message received on operation token {operationToken}: {message}");
         }
     }
 }

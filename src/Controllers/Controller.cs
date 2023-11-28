@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Supabase;
 
 using Neurocache.CentralIntelFrigate;
-using Neurocache.ClientChannels;
-using Neurocache.ConduitFrigate;
+using Neurocache.Operations;
 using Neurocache.ShipsInfo;
 using Neurocache.Utilities;
-using Neurocache.Schema;
 
 namespace Neurocache.Controllers
 {
@@ -22,19 +20,25 @@ namespace Neurocache.Controllers
 
             Ships.Log("Killing all operations");
 
-            ClientChannelService.KillAll();
+            OperationService.KillAll();
             return Ok();
         }
 
         [HttpPost("agent/stop")]
-        public IActionResult Stop([FromBody] StopAgentRequest body)
+        public IActionResult Stop([FromQuery] string operationToken)
         {
             if (!Keys.Guard(Request)) return Unauthorized();
 
             Ships.Log("Stopping operation");
 
-            var tokenGuid = Guid.Parse(body.SessionToken);
-            ClientChannelService.Stop(tokenGuid);
+            var tokenGuid = Guid.Parse(operationToken);
+            if (tokenGuid == Guid.Empty)
+            {
+                Ships.Log("Token is invalid");
+                return BadRequest("Token is invalid");
+            }
+
+            OperationService.Stop(tokenGuid);
             return Ok();
         }
 
@@ -47,6 +51,13 @@ namespace Neurocache.Controllers
                 return BadRequest("WebSocket request expected.");
             }
             if (!Keys.Guard(apiKey, out var guidKey)) return Unauthorized();
+
+            var agentIdGuid = Guid.Parse(agentId);
+            if (agentIdGuid == Guid.Empty)
+            {
+                Ships.Log("Agent id is invalid");
+                return BadRequest("Agent id is invalid");
+            }
 
             Ships.Log($"Operation request received, key: {guidKey}");
             var operationOutline = await CentralIntel.OperationRequest(
@@ -61,18 +72,13 @@ namespace Neurocache.Controllers
                 return Unauthorized();
             }
 
-            await Conduit.EnsureTopicExists(agentId);
-            var operationToken = new OperationToken(Guid.NewGuid());
-
-            Ships.Log($"Operation outline received, token created, accepting web socket connection");
+            Ships.Log($"Operation outline received, accepting web socket connection");
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
 
-            Ships.Log($"Creating client channel for operation token: {operationToken.Token}");
-            var clientChannel = ClientChannelService.CreateClientChannel(webSocket, operationToken.Token);
-            await clientChannel.StartCommunication();
+            var operation = OperationService.CreateOperation(webSocket, agentIdGuid, operationOutline);
+            await operation.Start();
 
-            Ships.Log($"Removing client channel for operation token: {operationToken.Token}");
-            ClientChannelService.RemoveClientChannel(operationToken.Token);
+            operation.Stop();
             return new EmptyResult();
         }
     }
