@@ -26,8 +26,8 @@ namespace Neurocache.ConduitFrigate
                 .SetValueSerializer(new JsonOperationReportSerializer())
                 .Build();
 
-        public static async Task EnsureTopicExists(Guid topic)
-            => await CreateTopicIfNotExist(uplinkConfig, topic.ToString());
+        public static async Task EnsureTopicExists(string topic)
+            => await CreateTopicIfNotExist(uplinkConfig, topic);
 
         public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
         {
@@ -76,7 +76,7 @@ namespace Neurocache.ConduitFrigate
             return new()
             {
                 BootstrapServers = bootstrapServers,
-                GroupId = Ships.ThisVesselName,
+                GroupId = Ships.ThisVesselId,
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,

@@ -1,10 +1,11 @@
 //path: src\Operations\Operation.cs
 
 using System.Net.WebSockets;
+using System.Reactive.Linq;
 
+using Neurocache.ConduitFrigate;
 using Neurocache.ShipsInfo;
 using Neurocache.Schema;
-using Neurocache.ConduitFrigate;
 
 namespace Neurocache.Operations
 {
@@ -12,9 +13,9 @@ namespace Neurocache.Operations
     {
         public Guid Token { get; }
 
+        readonly ConduitChannel conduitChannel;
         readonly ClientChannel clientChannel;
         readonly OperationOutline outline;
-        readonly HubChannel hubChannel;
         readonly Guid agentId;
 
         public Operation(
@@ -25,85 +26,54 @@ namespace Neurocache.Operations
         {
             this.outline = outline;
             Token = Guid.NewGuid();
-            hubChannel = new HubChannel(agentId);
+            conduitChannel = new ConduitChannel(agentId);
             clientChannel = new ClientChannel(webSocket, Token);
             this.agentId = agentId;
         }
 
         public async Task Start()
         {
-            await Conduit.EnsureTopicExists(agentId);
+            await Conduit.EnsureTopicExists(agentId.ToString());
 
-            hubChannel.Start();
-            await clientChannel.Start();
+
+
+            conduitChannel.OnReportReceived
+                .Where(ValidConduitAuthor)
+                .Subscribe(OnConduitReport);
+            conduitChannel.Start();
+
+            clientChannel.OnReportReceived
+                .Where(report => report.Token == Token)
+                .Where(ValidClientAuthor)
+                .Subscribe(OnClientReport);
+            clientChannel.Start();
+
+            await clientChannel.UpdateLoop();
         }
 
         public void Stop()
         {
             clientChannel.Stop();
-            hubChannel.Stop();
-        }
-
-        void RouteReport(OperationReport report)
-        {
-            if (report.Author == "client")
-            {
-
-            }
+            conduitChannel.Stop();
         }
 
         void OnClientReport(OperationReport report)
         {
-            Ships.Log($"Client report: {report.Payload}");
+            Ships.Log($"OnClientReport: {report}");
+            conduitChannel.SendReport.OnNext(report);
         }
 
-        void OnHubReport(OperationReport report)
+        void OnConduitReport(OperationReport report)
         {
-            Ships.Log($"Hub report: {report.Payload}");
+            Ships.Log($"OnConduitReport: {report}");
+            clientChannel.SendReport.OnNext(report);
         }
 
-        OperationReport DependentReport(OperationReport previousReport)
-        {
-            var dispatchReport = new OperationReport(
-                previousReport.Token,
-                Ships.ThisVesselName,
-                previousReport.Payload,
-                false,
-                []
-            );
+        bool ValidClientAuthor(OperationReport report)
+            => report.Author == "Client";
 
-            var prevNodes = outline.Nodes
-                .Where(node => node.Id == previousReport.Author)
-                .ToList();
-
-            foreach (var node in prevNodes)
-            {
-                foreach (var handle in node.Data.Handles)
-                {
-                    var nextNodes = outline.Edges
-                        .Where(edge => edge.Source == handle.Id)
-                        .Select(edge => edge.Target)
-                        .ToList();
-
-                    foreach (var nextNode in nextNodes)
-                    {
-                        var nextNodeData = outline.Nodes
-                            .Where(nodeData => nodeData.Id == nextNode)
-                            .Select(nodeData => nodeData.Data)
-                            .ToList();
-
-                        foreach (var data in nextNodeData)
-                        {
-                            if (data.NodeId != null && data.Body != null)
-                            {
-                                dispatchReport.Dependents.Add(data.NodeId);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return dispatchReport;
-        }
+        bool ValidConduitAuthor(OperationReport report)
+            => report.Author == "Client"
+                || report.Author == "Hub";
     }
 }

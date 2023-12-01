@@ -25,7 +25,7 @@ namespace Neurocache.Operations
         readonly WebSocket webSocket = webSocket;
         IDisposable? sendReportSub;
 
-        public async Task Start()
+        public void Start()
         {
             sendReportSub = SendReport
                 .Where(_ => webSocket.State != WebSocketState.Open)
@@ -45,10 +45,11 @@ namespace Neurocache.Operations
                     );
                 });
 
-            Ships.Log($"Starting client channel for operation token: {operationToken}");
-
-            await ChannelLoop();
+            Ships.Log($"Started client channel for operation token: {operationToken}");
         }
+
+        public async Task UpdateLoop()
+            => await ChannelLoop();
 
         void OnMessageReceived(string message)
         {
@@ -60,6 +61,7 @@ namespace Neurocache.Operations
                 return;
             }
 
+            report.SetClientAuthor();
             onReportReceived.OnNext(report);
         }
 

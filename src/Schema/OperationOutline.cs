@@ -1,5 +1,7 @@
 //path: src\Schema\OperationOutline.cs
 
+using Newtonsoft.Json;
+
 namespace Neurocache.Schema
 {
     public record OperationOutline(Node[] Nodes, Edge[] Edges, Viewport? Viewport);
@@ -17,6 +19,9 @@ namespace Neurocache.Schema
         public bool Selected { get; set; }
         public record PositionAbsolute(float X, float Y);
         public bool? Dragging;
+
+        public override string ToString()
+            => JsonConvert.SerializeObject(this);
     }
 
     public class Handle
@@ -25,6 +30,9 @@ namespace Neurocache.Schema
         public string? HandleType;
         public float Angle { get; set; }
         public record Offset(float X, float Y);
+
+        public override string ToString()
+            => JsonConvert.SerializeObject(this);
     }
 
     public class Edge
@@ -36,6 +44,9 @@ namespace Neurocache.Schema
         public int ZIndex;
         public string? SourceHandle;
         public string? TargetHandle;
+
+        public override string ToString()
+            => JsonConvert.SerializeObject(this);
     }
 
     public class NodeData
@@ -46,5 +57,8 @@ namespace Neurocache.Schema
         public string? NodeName;
         public string? NodeType;
         public record NodePosition(float X, float Y);
+
+        public override string ToString()
+            => JsonConvert.SerializeObject(this);
     }
 }

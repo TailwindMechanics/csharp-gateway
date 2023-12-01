@@ -1,4 +1,4 @@
-//path: src\Operations\HubChannel.cs
+//path: src\Operations\ConduitChannel.cs
 
 using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
@@ -11,7 +11,7 @@ using Neurocache.Schema;
 
 namespace Neurocache.Operations
 {
-    public class HubChannel(Guid agentid)
+    public class ConduitChannel(Guid agentid)
     {
         public readonly ISubject<OperationReport> SendReport = new Subject<OperationReport>();
         readonly Subject<OperationReport> onReportReceived = new();
@@ -29,7 +29,7 @@ namespace Neurocache.Operations
                 .TakeUntil(stop)
                 .Subscribe(operationReport =>
                 {
-                    Ships.Log($"Sending operation report: {operationReport}");
+                    Ships.Log($"ConduitChannel: Sending operation report: {operationReport}");
                     Conduit.Uplink(agentid.ToString(), operationReport, CancellationToken.None);
                 });
 
@@ -38,11 +38,11 @@ namespace Neurocache.Operations
                 .TakeUntil(stop)
                 .Subscribe(operationReport =>
                 {
-                    Ships.Log($"Received operation report: {operationReport}");
+                    Ships.Log($"ConduitChannel: Received operation report: {operationReport}");
                     onReportReceived.OnNext(operationReport);
                 });
 
-            Ships.Log("Starting hub channel");
+            Ships.Log("ConduitChannel: Started");
         }
 
         public void Stop()
@@ -50,6 +50,8 @@ namespace Neurocache.Operations
             stop.OnNext(Unit.Default);
             downlinkSub?.Dispose();
             uplinkSub?.Dispose();
+
+            Ships.Log("ConduitChannel: Stopped");
         }
     }
 }

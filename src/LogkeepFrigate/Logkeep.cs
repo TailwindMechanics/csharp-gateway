@@ -42,7 +42,7 @@ namespace Neurocache.LogkeepFrigate
             return new LoggerConfiguration()
                 .MinimumLevel.Is(serilogLevel)
                 .Enrich.WithProperty("Category", category)
-                .Enrich.WithProperty("Ship", Ships.ThisVesselName)
+                .Enrich.WithProperty("Ship", Ships.ThisVessel)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(uri))

@@ -31,8 +31,9 @@ dotnet_vanguard_gateway
    │  └─ Logkeep.cs
    ├─ Operations
    │  ├─ ClientChannel.cs
-   │  ├─ HubChannel.cs
+   │  ├─ ConduitChannel.cs
    │  ├─ Operation.cs
+   │  ├─ OperationOutlineRouter.cs
    │  └─ OperationService.cs
    ├─ RequestsChannel
    │  └─ RequestsChannelService.cs

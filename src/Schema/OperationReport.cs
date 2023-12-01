@@ -9,22 +9,27 @@ namespace Neurocache.Schema
         string author,
         string payload,
         bool final,
-        List<string> dependents
+        string reportId,
+        List<string>? errors = null,
+        int status = 200
     )
     {
         public Guid Token { get; } = token;
-        public string Author { get; } = author;
+        public string Author { get; private set; } = author;
         public string Payload { get; } = payload;
         public bool Final { get; } = final;
-        public List<string> Dependents { get; } = dependents;
+        public string ReportId { get; } = reportId;
 
+        public List<string>? Errors { get; } = errors;
+        public int Status { get; } = status;
+
+        public void SetClientAuthor()
+            => Author = "Client";
         public override string ToString()
-        {
-            var dependentsStr = Dependents != null ? string.Join(", ", Dependents) : "None";
-            return $"Token: {Token}, Author: {Author}, Payload: {Payload}, Final: {Final}, Dependents: {dependentsStr}";
-        }
-
+            => $"OperationReport({Author}, {Payload}, {Token}, {Final}, {ReportId}, {Errors}, {Status})";
         public static OperationReport? FromJson(string json)
             => JsonConvert.DeserializeObject<OperationReport>(json);
+        public static string ToJson(OperationReport report)
+            => JsonConvert.SerializeObject(report);
     }
 }
