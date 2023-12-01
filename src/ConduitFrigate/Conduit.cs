@@ -17,9 +17,9 @@ namespace Neurocache.ConduitFrigate
         private static readonly ConsumerConfig downlinkConfig = CreateConsumer();
 
         public static IConsumer<string, OperationReport> DownlinkConsumer
-        => new ConsumerBuilder<string, OperationReport>(downlinkConfig)
-            .SetValueDeserializer(new JsonOperationReportDeserializer())
-            .Build();
+            => new ConsumerBuilder<string, OperationReport>(downlinkConfig)
+                .SetValueDeserializer(new JsonOperationReportDeserializer())
+                .Build();
 
         public static IProducer<string, OperationReport> UplinkProducer
             => new ProducerBuilder<string, OperationReport>(uplinkConfig)
@@ -44,7 +44,10 @@ namespace Neurocache.ConduitFrigate
 
         public static async void Uplink(string topic, OperationReport operationReport, CancellationToken cancelToken)
         {
-            using var uplink = new ProducerBuilder<string, OperationReport>(uplinkConfig).Build();
+            using var uplink = new ProducerBuilder<string, OperationReport>(uplinkConfig)
+                .SetValueSerializer(new JsonOperationReportSerializer())
+                .Build();
+
             await uplink.ProduceAsync(topic, new Message<string, OperationReport>
             {
                 Key = operationReport.Token.ToString(),
