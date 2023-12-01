@@ -77,6 +77,7 @@ namespace Neurocache.Controllers
 
             var operation = OperationService.CreateOperation(webSocket, agentIdGuid, operationOutline);
             await operation.Start();
+            await operation.UpdateLoop();
 
             operation.Stop();
             return new EmptyResult();

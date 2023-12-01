@@ -46,13 +46,38 @@ namespace Neurocache.Operations
                 .Subscribe(OnClientReport);
             clientChannel.Start();
 
-            await clientChannel.UpdateLoop();
+            Ships.Log($"Operation started with token {OperationToken}");
+            DispatchVanguardStarted();
         }
+
+        public async Task UpdateLoop()
+            => await clientChannel.UpdateLoop();
 
         public void Stop()
         {
             clientChannel.Stop();
             conduitChannel.Stop();
+        }
+
+        void DispatchVanguardStarted()
+        {
+            var report = new OperationReport(
+                OperationToken,
+                Ships.ThisVessel,
+                "Vanguard started",
+                false,
+                "vanguard_started"
+            );
+
+            Ships.Log($"Dispatching Vanguard started report: {report}");
+            DispatchReport(report);
+        }
+
+        void DispatchReport(OperationReport report)
+        {
+            Ships.Log($"Dispatching report: {report}");
+            clientChannel.SendReport.OnNext(report);
+            conduitChannel.SendReport.OnNext(report);
         }
 
         void OnClientReport(OperationReport report)
