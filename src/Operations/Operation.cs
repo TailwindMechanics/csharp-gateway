@@ -11,7 +11,7 @@ namespace Neurocache.Operations
 {
     public class Operation
     {
-        public Guid Token { get; }
+        public Guid OperationToken { get; }
 
         readonly ConduitChannel conduitChannel;
         readonly ClientChannel clientChannel;
@@ -25,9 +25,9 @@ namespace Neurocache.Operations
         )
         {
             this.outline = outline;
-            Token = Guid.NewGuid();
+            OperationToken = Guid.NewGuid();
             conduitChannel = new ConduitChannel(agentId);
-            clientChannel = new ClientChannel(webSocket, Token);
+            clientChannel = new ClientChannel(webSocket, OperationToken);
             this.agentId = agentId;
         }
 
@@ -35,15 +35,13 @@ namespace Neurocache.Operations
         {
             await Conduit.EnsureTopicExists(agentId.ToString());
 
-
-
             conduitChannel.OnReportReceived
                 .Where(ValidConduitAuthor)
                 .Subscribe(OnConduitReport);
             conduitChannel.Start();
 
             clientChannel.OnReportReceived
-                .Where(report => report.Token == Token)
+                .Where(report => report.Token == OperationToken)
                 .Where(ValidClientAuthor)
                 .Subscribe(OnClientReport);
             clientChannel.Start();

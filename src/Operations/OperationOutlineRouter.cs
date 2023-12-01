@@ -7,26 +7,6 @@ namespace Neurocache.Operations
 {
     public static class OperationOutlineRouter
     {
-        public static OperationReport? EntryReport(OperationOutline outline, string userPrompt)
-        {
-            var startNode = outline.Nodes
-                .FirstOrDefault(n => n.Id == "start_node");
-
-            if (startNode == null || startNode.Id == null)
-            {
-                Ships.Warning("OperationOutlineRouter: Start node not found");
-                return null;
-            }
-
-            return new OperationReport(
-                Guid.NewGuid(),
-                Ships.ThisVessel,
-                userPrompt,
-                false,
-                startNode.Id
-            );
-        }
-
         public static List<OperationReport> DependentReport(OperationOutline outline, OperationReport previousReport)
         {
             var dependents = new List<string>();

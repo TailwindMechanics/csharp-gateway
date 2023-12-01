@@ -19,7 +19,7 @@ namespace Neurocache.Operations
         )
         {
             var operation = new Operation(webSocket, agentId, outline);
-            Operations.TryAdd(operation.Token, operation);
+            Operations.TryAdd(operation.OperationToken, operation);
             return operation;
         }
 
