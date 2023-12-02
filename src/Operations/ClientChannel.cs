@@ -28,14 +28,13 @@ namespace Neurocache.Operations
         public void Start()
         {
             sendReportSub = SendReport
-                // .Where(_ => webSocket.State != WebSocketState.Open)
-                // .Select(JsonConvert.SerializeObject)
-                // .Where(json => !string.IsNullOrEmpty(json))
-                // .ObserveOn(Scheduler.Default)
+                .Where(_ => webSocket.State == WebSocketState.Open)
+                .Select(JsonConvert.SerializeObject)
+                .Where(json => !string.IsNullOrEmpty(json))
+                .ObserveOn(Scheduler.Default)
                 .TakeUntil(stop)
-                .Subscribe(async report =>
+                .Subscribe(async jsonReport =>
                 {
-                    var jsonReport = JsonConvert.SerializeObject(report);
                     Ships.Log($"Sending message on operation token {operationToken}: {jsonReport}");
                     var messageBuffer = Encoding.UTF8.GetBytes(jsonReport);
                     await webSocket.SendAsync(
