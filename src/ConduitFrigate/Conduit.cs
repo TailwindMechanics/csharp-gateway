@@ -1,6 +1,7 @@
 //path: src\ConduitFrigate\Conduit.cs
 
 using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 using Confluent.Kafka.Admin;
 using System.Reactive.Linq;
 using Confluent.Kafka;
@@ -13,8 +14,9 @@ namespace Neurocache.ConduitFrigate
 {
     public static class Conduit
     {
-        private static readonly ProducerConfig uplinkConfig = CreateProducer();
+        public static readonly Subject<Unit> ChannelClosed = new();
         private static readonly ConsumerConfig downlinkConfig = CreateConsumer();
+        private static readonly ProducerConfig uplinkConfig = CreateProducer();
 
         public static IConsumer<string, OperationReport> DownlinkConsumer
             => new ConsumerBuilder<string, OperationReport>(downlinkConfig)
@@ -29,11 +31,22 @@ namespace Neurocache.ConduitFrigate
         public static async Task EnsureTopicExists(string topic)
             => await CreateTopicIfNotExist(uplinkConfig, topic);
 
-        public static IObservable<OperationReport> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
+        public static IObservable<OperationReport?> Downlink(string topic, IConsumer<string, OperationReport> downlink, CancellationToken cancelToken)
         {
             downlink.Subscribe(topic);
             return Observable.Interval(TimeSpan.FromSeconds(0.1))
-                .Select(_ => downlink.Consume(cancelToken).Message.Value)
+                .Select(_ =>
+                {
+                    try
+                    {
+                        return downlink.Consume(cancelToken).Message?.Value;
+                    }
+                    catch (ConsumeException e) when (e.Error.Reason.Contains("Unknown topic or partition"))
+                    {
+                        ChannelClosed.OnNext(Unit.Default);
+                        return null;
+                    }
+                })
                 .Where(message => message != null)
                 .TakeUntil(Observable.Create<Unit>(observer =>
                 {

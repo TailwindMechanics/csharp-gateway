@@ -5,6 +5,7 @@ using System.Net.WebSockets;
 
 using Neurocache.ShipsInfo;
 using Neurocache.Schema;
+using System.Reactive;
 
 namespace Neurocache.Operations
 {
@@ -32,7 +33,7 @@ namespace Neurocache.Operations
                 return;
             }
 
-            operation.Stop();
+            operation.StopSubject.OnNext(Unit.Default);
             Operations.TryRemove(token, out _);
         }
 
@@ -40,7 +41,7 @@ namespace Neurocache.Operations
         {
             foreach (var operation in Operations.Values)
             {
-                operation.Stop();
+                operation.StopSubject.OnNext(Unit.Default);
             }
 
             Operations.Clear();

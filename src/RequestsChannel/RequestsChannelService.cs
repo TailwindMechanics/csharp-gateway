@@ -35,10 +35,11 @@ namespace Neurocache.RequestsChannel
 
             downlinkSub = Conduit.Downlink(requestsTopic, Conduit.DownlinkConsumer, CancellationToken.None)
                 .ObserveOn(Scheduler.Default)
+                .Where(report => report != null)
                 .Subscribe(operationReport =>
                 {
                     Ships.Log($"Received operation report: {operationReport}");
-                    onDownlinkReceived.OnNext(operationReport);
+                    onDownlinkReceived.OnNext(operationReport!);
                 });
 
             Ships.Log("RequestsChannelService started");

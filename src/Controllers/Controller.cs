@@ -7,6 +7,7 @@ using Neurocache.CentralIntelFrigate;
 using Neurocache.Operations;
 using Neurocache.ShipsInfo;
 using Neurocache.Utilities;
+using System.Reactive;
 
 namespace Neurocache.Controllers
 {
@@ -79,7 +80,7 @@ namespace Neurocache.Controllers
             await operation.Start();
             await operation.UpdateLoop();
 
-            operation.Stop();
+            OperationService.Stop(operation.OperationToken);
             return new EmptyResult();
         }
     }
