@@ -34,7 +34,7 @@ namespace Neurocache.Schema
         public void SetVanguardAuthor()
             => Author = "Vanguard";
         public override string ToString()
-            => $"OperationReport({Author}, {Payload}, {Token}, {Final}, {ReportId}, {Errors}, {Status})";
+            => $"OperationReport: token:{Token}, author:{Author}, recipient:{Recipient}, payload:{Payload}, agentId:{AgentId}, final:{Final}, reportId:{ReportId}, status:{Status}, errors:{Errors}";
         public static OperationReport? FromJson(string json)
             => JsonConvert.DeserializeObject<OperationReport>(json);
         public static string ToJson(OperationReport report)
