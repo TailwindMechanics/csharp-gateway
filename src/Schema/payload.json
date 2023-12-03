@@ -1,0 +1,278 @@
+{
+  "edges": [
+    {
+      "id": "reactflow__edge-send_output_amethyst_termitehandle_source_send_output_amethyst_termite_1-splitter_chocolate_shrimphandle_target_splitter_chocolate_shrimp_0",
+      "type": "custom",
+      "source": "send_output_amethyst_termite",
+      "target": "splitter_chocolate_shrimp",
+      "zIndex": -100,
+      "sourceHandle": "handle_source_send_output_amethyst_termite_1",
+      "targetHandle": "handle_target_splitter_chocolate_shrimp_0"
+    },
+    {
+      "id": "reactflow__edge-persona_peach_koalahandle_source_persona_peach_koala_1-avatar_gen_amber_butterflyhandle_target_avatar_gen_amber_butterfly_0",
+      "type": "custom",
+      "source": "persona_peach_koala",
+      "target": "avatar_gen_amber_butterfly",
+      "zIndex": -100,
+      "sourceHandle": "handle_source_persona_peach_koala_1",
+      "targetHandle": "handle_target_avatar_gen_amber_butterfly_0"
+    },
+    {
+      "id": "reactflow__edge-avatar_gen_amber_butterflyhandle_source_avatar_gen_amber_butterfly_1-gpt_chat_sapphire_duckhandle_target_gpt_chat_sapphire_duck_0",
+      "type": "custom",
+      "source": "avatar_gen_amber_butterfly",
+      "target": "gpt_chat_sapphire_duck",
+      "zIndex": -100,
+      "sourceHandle": "handle_source_avatar_gen_amber_butterfly_1",
+      "targetHandle": "handle_target_gpt_chat_sapphire_duck_0"
+    },
+    {
+      "id": "reactflow__edge-gpt_chat_sapphire_duckhandle_source_gpt_chat_sapphire_duck_1-text_blush_ferrethandle_target_text_blush_ferret_0",
+      "type": "custom",
+      "source": "gpt_chat_sapphire_duck",
+      "target": "text_blush_ferret",
+      "zIndex": -100,
+      "sourceHandle": "handle_source_gpt_chat_sapphire_duck_1",
+      "targetHandle": "handle_target_text_blush_ferret_0"
+    },
+    {
+      "id": "reactflow__edge-entry_plum_bonobohandle_source_entry_plum_bonobo_0-persona_peach_koalahandle_target_persona_peach_koala_0",
+      "type": "custom",
+      "source": "entry_plum_bonobo",
+      "target": "persona_peach_koala",
+      "zIndex": -100,
+      "sourceHandle": "handle_source_entry_plum_bonobo_0",
+      "targetHandle": "handle_target_persona_peach_koala_0"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "persona_peach_koala",
+      "data": {
+        "body": "This node generates the Name and Personality for the agent.",
+        "nodeId": "persona_peach_koala",
+        "handles": [
+          {
+            "id": "handle_target_persona_peach_koala_0",
+            "type": "target",
+            "angle": -45,
+            "offset": {
+              "x": 5,
+              "y": 5
+            }
+          },
+          {
+            "id": "handle_source_persona_peach_koala_1",
+            "type": "source",
+            "angle": 135,
+            "offset": {
+              "x": 90,
+              "y": 90
+            }
+          }
+        ],
+        "category": "Persona",
+        "nodeName": "Persona",
+        "nodeType": "persona",
+        "nodePosition": {
+          "x": 50,
+          "y": 0
+        },
+        "serializable": true
+      },
+      "type": "persona",
+      "width": 24,
+      "height": 24,
+      "dragging": false,
+      "position": {
+        "x": 73.00452250738539,
+        "y": -33.10906881594617
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 73.00452250738539,
+        "y": -33.10906881594617
+      }
+    },
+    {
+      "id": "avatar_gen_amber_butterfly",
+      "data": {
+        "body": "This node generates an avatar.",
+        "nodeId": "avatar_gen_amber_butterfly",
+        "handles": [
+          {
+            "id": "handle_target_avatar_gen_amber_butterfly_0",
+            "type": "target",
+            "angle": -45,
+            "offset": {
+              "x": 5,
+              "y": 5
+            }
+          },
+          {
+            "id": "handle_source_avatar_gen_amber_butterfly_1",
+            "type": "source",
+            "angle": 135,
+            "offset": {
+              "x": 90,
+              "y": 90
+            }
+          }
+        ],
+        "category": "Images",
+        "nodeName": "Avatar Gen",
+        "nodeType": "avatar_gen",
+        "nodePosition": {
+          "x": 50,
+          "y": 0
+        },
+        "serializable": true
+      },
+      "type": "avatar_gen",
+      "width": 24,
+      "height": 24,
+      "dragging": false,
+      "position": {
+        "x": 140.99558496398453,
+        "y": -34.05643123403439
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 140.99558496398453,
+        "y": -34.05643123403439
+      }
+    },
+    {
+      "id": "gpt_chat_sapphire_duck",
+      "data": {
+        "body": "This node is used to get OpenAi Gpt chat replies.",
+        "nodeId": "gpt_chat_sapphire_duck",
+        "handles": [
+          {
+            "id": "handle_target_gpt_chat_sapphire_duck_0",
+            "type": "target",
+            "angle": -45,
+            "offset": {
+              "x": 5,
+              "y": 5
+            }
+          },
+          {
+            "id": "handle_source_gpt_chat_sapphire_duck_1",
+            "type": "source",
+            "angle": 135,
+            "offset": {
+              "x": 90,
+              "y": 90
+            }
+          }
+        ],
+        "category": "Chat",
+        "nodeName": "Gpt Chat",
+        "nodeType": "gpt_chat",
+        "nodePosition": {
+          "x": 50,
+          "y": 0
+        },
+        "serializable": true
+      },
+      "type": "gpt_chat",
+      "width": 24,
+      "height": 24,
+      "dragging": false,
+      "position": {
+        "x": 212.12736399125095,
+        "y": -32.263462822174205
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 212.12736399125095,
+        "y": -32.263462822174205
+      }
+    },
+    {
+      "id": "text_blush_ferret",
+      "data": {
+        "body": "This node displays text formatted with markdown.",
+        "nodeId": "text_blush_ferret",
+        "handles": [
+          {
+            "id": "handle_target_text_blush_ferret_0",
+            "type": "target",
+            "angle": 0,
+            "offset": {
+              "x": 50,
+              "y": 0
+            }
+          }
+        ],
+        "category": "UI",
+        "nodeName": "Text",
+        "nodeType": "text",
+        "nodePosition": {
+          "x": 50,
+          "y": 0
+        },
+        "serializable": true
+      },
+      "type": "text",
+      "width": 44,
+      "height": 26,
+      "dragging": false,
+      "position": {
+        "x": 247.68936989705668,
+        "y": 0.7210368299554766
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 247.68936989705668,
+        "y": 0.7210368299554766
+      }
+    },
+    {
+      "id": "entry_plum_bonobo",
+      "data": {
+        "body": "This node is a convenience, a node you can call from your code to kick things off.",
+        "nodeId": "entry_plum_bonobo",
+        "handles": [
+          {
+            "id": "handle_source_entry_plum_bonobo_0",
+            "type": "source",
+            "angle": 135,
+            "offset": {
+              "x": 90,
+              "y": 90
+            }
+          }
+        ],
+        "category": "Utils",
+        "nodeName": "Entry",
+        "nodeType": "entry",
+        "nodePosition": {
+          "x": 50,
+          "y": 0
+        },
+        "serializable": true
+      },
+      "type": "entry",
+      "width": 24,
+      "height": 20,
+      "dragging": false,
+      "position": {
+        "x": 4.9488485838816345,
+        "y": -34.014032882134316
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 4.9488485838816345,
+        "y": -34.014032882134316
+      }
+    }
+  ],
+  "viewport": {
+    "x": 375,
+    "y": 125,
+    "zoom": 3
+  }
+}

@@ -12,33 +12,33 @@ namespace Neurocache.Operations
             var result = new List<OperationReport>();
 
             // Find the Current Node
-            var currentNode = outline.Nodes.FirstOrDefault(n => n.Id == previousReport.ReportId.ToString());
+            var currentNode = outline.Nodes.FirstOrDefault(n => n.Data.NodeId == previousReport.ReportId.ToString());
             if (currentNode == null)
             {
                 Ships.Log($"NextReport: Node with ID {previousReport.ReportId} not found.");
                 return result;
             }
 
-            Ships.Log($"NextReport: Found current node with ID {currentNode.Id}.");
+            Ships.Log($"NextReport: Found current node with ID {currentNode.Data.NodeId}.");
 
             // Check the Node's Output Handles
             var sourceHandles = currentNode.Data.Handles.Where(h => h.Type == "source").ToList();
             if (!sourceHandles.Any())
             {
-                Ships.Log($"NextReport: No output (source) handles found for node {currentNode.Id}.");
+                Ships.Log($"NextReport: No output (source) handles found for node {currentNode.Data.NodeId}.");
             }
             else
             {
-                Ships.Log($"NextReport: Found {sourceHandles.Count} output (source) handle(s) for node {currentNode.Id}.");
+                Ships.Log($"NextReport: Found {sourceHandles.Count} output (source) handle(s) for node {currentNode.Data.NodeId}.");
             }
 
             // Find Outgoing Connections
             foreach (var handle in sourceHandles)
             {
-                Ships.Log($"NextReport: Checking connections from handle {handle.Id} of node {currentNode.Id}.");
+                Ships.Log($"NextReport: Checking connections from handle {handle.Id} of node {currentNode.Data.NodeId}.");
 
                 var targetNodeIds = outline.Edges
-                    .Where(e => e.Source == currentNode.Id && e.SourceHandle == handle.Id)
+                    .Where(e => e.Source == currentNode.Data.NodeId && e.SourceHandle == handle.Id)
                     .Select(e => e.Target)
                     .ToList();
 
@@ -54,7 +54,7 @@ namespace Neurocache.Operations
                 // Identify Next Nodes
                 foreach (var targetNodeId in targetNodeIds)
                 {
-                    var targetNode = outline.Nodes.FirstOrDefault(n => n.Id == targetNodeId);
+                    var targetNode = outline.Nodes.FirstOrDefault(n => n.Data.NodeId == targetNodeId);
                     if (targetNode == null)
                     {
                         Ships.Log($"NextReport: Target node with ID {targetNodeId} not found.");
@@ -65,15 +65,15 @@ namespace Neurocache.Operations
                     var newReport = new OperationReport(
                         previousReport.Token,
                         Ships.ThisVessel,
-                        targetNode.NodeType!,
+                        targetNode.Data.NodeType!,
                         previousReport.Payload,
                         previousReport.AgentId,
                         false,
-                        targetNode.Id!
+                        targetNode.Data.NodeId!
                     );
 
                     result.Add(newReport);
-                    Ships.Log($"NextReport: Created new report for target node ID {targetNode.Id}.");
+                    Ships.Log($"NextReport: Created new report for target node ID {targetNode.Id}, report: {newReport}");
                 }
             }
 
@@ -89,6 +89,5 @@ namespace Neurocache.Operations
 
             return result;
         }
-
     }
 }

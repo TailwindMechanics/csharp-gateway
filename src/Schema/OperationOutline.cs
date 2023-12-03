@@ -12,7 +12,6 @@ namespace Neurocache.Schema
     {
         public string? Id;
         public NodeData Data = new();
-        public string? NodeType;
         public float Width;
         public float Height;
         public record Position(float X, float Y);
