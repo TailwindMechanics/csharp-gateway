@@ -5,9 +5,9 @@ using Neurocache.Schema;
 
 namespace Neurocache.Operations
 {
-    public static class OperationOutlineRouter
+    public static class OperationReportRouter
     {
-        public static List<OperationReport> DependentReport(OperationOutline outline, OperationReport previousReport)
+        public static List<OperationReport> NextReport(OperationOutline outline, OperationReport previousReport)
         {
             var dependents = new List<string>();
             var prevNode = outline.Nodes

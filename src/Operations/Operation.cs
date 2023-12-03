@@ -3,6 +3,7 @@
 using System.Net.WebSockets;
 using System.Reactive.Linq;
 
+using Neurocache.RequestsChannel;
 using Neurocache.ConduitFrigate;
 using Neurocache.ShipsInfo;
 using Neurocache.Schema;
@@ -38,12 +39,14 @@ namespace Neurocache.Operations
             conduitChannel.OnReportReceived
                 .Where(ValidConduitAuthor)
                 .Subscribe(OnConduitReport);
+
             conduitChannel.Start();
 
             clientChannel.OnReportReceived
                 .Where(report => report.Token == OperationToken)
                 .Where(ValidClientAuthor)
                 .Subscribe(OnClientReport);
+
             clientChannel.Start();
 
             Ships.Log($"Operation started with token {OperationToken}");
@@ -59,6 +62,30 @@ namespace Neurocache.Operations
             conduitChannel.Stop();
         }
 
+        void OnReportReceived(OperationReport report)
+        {
+            Ships.Log($"OnReportReceived: {report}");
+
+            if (!report.Final)
+            {
+                Ships.Log($"Report is not final, will not route next: {report}");
+                return;
+            }
+
+            var nextReports = OperationReportRouter.NextReport(outline, report);
+            if (nextReports.Count == 0)
+            {
+                Ships.Log($"No next reports for {report}");
+                return;
+            }
+
+            foreach (var nextReport in nextReports)
+            {
+                Ships.Log($"Dispatching next report: {nextReport}");
+                DispatchReport(nextReport);
+            }
+        }
+
         void DispatchVanguardStarted()
         {
             var report = new OperationReport(
@@ -71,6 +98,9 @@ namespace Neurocache.Operations
 
             Ships.Log($"Dispatching Vanguard started report: {report}");
             DispatchReport(report);
+
+            Ships.Log($"Uplinking Vanguard started to requests channel: {report}");
+            RequestsChannelService.UplinkReport.OnNext(report);
         }
 
         void DispatchReport(OperationReport report)
@@ -84,12 +114,14 @@ namespace Neurocache.Operations
         {
             Ships.Log($"OnClientReport: {report}");
             conduitChannel.SendReport.OnNext(report);
+            OnReportReceived(report);
         }
 
         void OnConduitReport(OperationReport report)
         {
             Ships.Log($"OnConduitReport: {report}");
             clientChannel.SendReport.OnNext(report);
+            OnReportReceived(report);
         }
 
         bool ValidClientAuthor(OperationReport report)

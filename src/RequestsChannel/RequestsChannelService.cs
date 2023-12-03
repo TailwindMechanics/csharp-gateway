@@ -10,10 +10,8 @@ using Neurocache.Schema;
 
 namespace Neurocache.RequestsChannel
 {
-    public class RequestsChannelService
+    public static class RequestsChannelService
     {
-        RequestsChannelService() { }
-
         public static readonly ISubject<OperationReport> UplinkReport = new Subject<OperationReport>();
         static readonly Subject<OperationReport> onDownlinkReceived = new();
         public static IObservable<OperationReport> OnDownlinkReceived
