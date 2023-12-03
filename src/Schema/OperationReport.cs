@@ -8,25 +8,27 @@ namespace Neurocache.Schema
         Guid token,
         string author,
         string payload,
+        Guid agentId,
         bool final,
         string reportId,
-        List<string>? errors = null,
-        int status = 200
+        int status = 200,
+        List<string>? errors = null
     )
     {
         public Guid Token { get; } = token;
         public string Author { get; private set; } = author;
         public string Payload { get; } = payload;
+        public Guid AgentId { get; } = agentId;
         public bool Final { get; } = final;
         public string ReportId { get; } = reportId;
 
-        public List<string>? Errors { get; } = errors;
         public int Status { get; } = status;
+        public List<string>? Errors { get; } = errors;
 
         public void SetClientAuthor()
             => Author = "Client";
         public void SetVanguardAuthor()
-        => Author = "Vanguard";
+            => Author = "Client";
         public override string ToString()
             => $"OperationReport({Author}, {Payload}, {Token}, {Final}, {ReportId}, {Errors}, {Status})";
         public static OperationReport? FromJson(string json)

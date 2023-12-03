@@ -38,11 +38,12 @@ namespace Neurocache.Operations
             dependents.ForEach(id =>
             {
                 result.Add(new OperationReport(
-                  previousReport.Token,
-                  Ships.ThisVessel,
-                  previousReport.Payload,
-                  false,
-                  id
+                    previousReport.Token,
+                    Ships.ThisVessel,
+                    previousReport.Payload,
+                    previousReport.AgentId,
+                    false,
+                    id
                 ));
             });
 
