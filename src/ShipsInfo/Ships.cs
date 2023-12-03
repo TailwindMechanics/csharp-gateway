@@ -11,9 +11,9 @@ namespace Neurocache.ShipsInfo
         public static readonly string VanguardName = "dotnet_vanguard_gateway";
 
         public static void Log(string message)
-            => Serilog.Log.Information($"==> {message}");
+            => Serilog.Log.Information($"{ThisVessel} ==> {message}");
 
         public static void Warning(string message)
-            => Serilog.Log.Warning($"==> {message}");
+            => Serilog.Log.Warning($"{ThisVessel} ==> {message}");
     }
 }

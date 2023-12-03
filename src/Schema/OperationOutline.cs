@@ -27,7 +27,7 @@ namespace Neurocache.Schema
     public class Handle
     {
         public string? Id;
-        public string? HandleType;
+        public string? Type;
         public float Angle { get; set; }
         public record Offset(float X, float Y);
 

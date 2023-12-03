@@ -22,7 +22,7 @@ namespace Neurocache.Operations
             Ships.Log($"NextReport: Found current node with ID {currentNode.Id}.");
 
             // Check the Node's Output Handles
-            var sourceHandles = currentNode.Data.Handles.Where(h => h.HandleType == "source").ToList();
+            var sourceHandles = currentNode.Data.Handles.Where(h => h.Type == "source").ToList();
             if (!sourceHandles.Any())
             {
                 Ships.Log($"NextReport: No output (source) handles found for node {currentNode.Id}.");
