@@ -18,10 +18,27 @@ namespace Neurocache.RequestsChannel
             => onDownlinkReceived;
 
         const string requestsTopic = "operation_requests";
+
+        static IDisposable? channelClosedSub;
+        const double restartDelaySeconds = 1;
         static IDisposable? downlinkSub;
         static IDisposable? uplinkSub;
+        static bool starting;
 
-        public static async void OnAppStart()
+        public static void OnAppStart()
+        {
+            starting = true;
+
+            channelClosedSub = Conduit
+                .ChannelClosed
+                .Where(_ => !starting)
+                .ObserveOn(Scheduler.Default)
+                .Subscribe(_ => Stop(true));
+
+            Start();
+        }
+
+        static async void Start()
         {
             await Conduit.EnsureTopicExists(requestsTopic);
 
@@ -43,14 +60,27 @@ namespace Neurocache.RequestsChannel
                 });
 
             Ships.Log("RequestsChannelService started");
+            starting = false;
+        }
+
+        static async void Stop(bool restart)
+        {
+            Ships.Log("RequestsChannelService stopping");
+            channelClosedSub?.Dispose();
+            downlinkSub?.Dispose();
+            uplinkSub?.Dispose();
+
+            if (!restart) return;
+
+            starting = true;
+            Ships.Log($"Restarting in {restartDelaySeconds} seconds");
+
+            await Task.Delay(TimeSpan.FromSeconds(restartDelaySeconds));
+
+            Start();
         }
 
         public static void OnAppClosing()
-        {
-            Ships.Log("RequestsChannelService closing");
-
-            downlinkSub?.Dispose();
-            uplinkSub?.Dispose();
-        }
+            => Stop(false);
     }
 }
