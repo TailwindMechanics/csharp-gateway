@@ -80,7 +80,7 @@ namespace Neurocache.ConduitFrigate
             {
                 BootstrapServers = bootstrapServers,
                 GroupId = Ships.ThisVesselId,
-                AutoOffsetReset = AutoOffsetReset.Earliest,
+                AutoOffsetReset = AutoOffsetReset.Latest,
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,
                 SaslUsername = sasslUsername,
