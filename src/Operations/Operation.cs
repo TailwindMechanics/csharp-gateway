@@ -142,6 +142,7 @@ namespace Neurocache.Operations
             var report = new OperationReport(
                 OperationToken,
                 Ships.ThisVessel,
+                "All",
                 "Vanguard started",
                 agentId,
                 false,
@@ -160,6 +161,7 @@ namespace Neurocache.Operations
             var report = new OperationReport(
                 OperationToken,
                 Ships.ThisVessel,
+                "All",
                 "Vanguard stopped",
                 agentId,
                 true,

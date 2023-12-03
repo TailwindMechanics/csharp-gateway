@@ -9,7 +9,7 @@ namespace Neurocache.Operations
     {
         public static List<OperationReport> NextReport(OperationOutline outline, OperationReport previousReport)
         {
-            var dependents = new List<string>();
+            var dependents = new List<Node>();
             var prevNode = outline.Nodes
                 .FirstOrDefault(n => n.Id == previousReport.ReportId.ToString());
 
@@ -21,10 +21,12 @@ namespace Neurocache.Operations
 
             foreach (var handle in prevNode.Data.Handles)
             {
-                var nextNodes = outline.Edges
+                var nextNodeIds = outline.Edges
                   .Where(e => e.Source == handle.Id)
                   .Select(e => e.Target)
                   .ToList();
+
+                var nextNodes = outline.Nodes.Where(n => nextNodeIds.Contains(n.Id));
 
                 foreach (var nextNode in nextNodes)
                 {
@@ -35,17 +37,20 @@ namespace Neurocache.Operations
             }
 
             var result = new List<OperationReport>();
-            dependents.ForEach(id =>
+            foreach (var node in dependents)
             {
+                if (node == null || node.NodeType == null || node.Id == null) continue;
+
                 result.Add(new OperationReport(
                     previousReport.Token,
                     Ships.ThisVessel,
+                    node.NodeType,
                     previousReport.Payload,
                     previousReport.AgentId,
                     false,
-                    id
+                    node.Id
                 ));
-            });
+            }
 
             return result;
         }
