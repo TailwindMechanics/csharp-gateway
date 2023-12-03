@@ -77,6 +77,10 @@ namespace Neurocache.Operations
 
         void Stop()
         {
+            Ships.Log($"Stopping operation with token {OperationToken}");
+
+            DispatchStopReport();
+
             clientChannel.Stop();
             conduitChannel.Stop();
 
@@ -92,6 +96,7 @@ namespace Neurocache.Operations
 
             var outboundReport = inboundReport;
             outboundReport.SetVanguardAuthor();
+            DispatchReport(outboundReport);
 
             if (!outboundReport.Final)
             {
@@ -148,6 +153,21 @@ namespace Neurocache.Operations
 
             Ships.Log($"Uplinking Vanguard started to requests channel: {report}");
             RequestsChannelService.UplinkReport.OnNext(report);
+        }
+
+        void DispatchStopReport()
+        {
+            var report = new OperationReport(
+                OperationToken,
+                Ships.ThisVessel,
+                "Vanguard stopped",
+                agentId,
+                true,
+                "vanguard_stopped"
+            );
+
+            Ships.Log($"Dispatching Vanguard stopped report: {report}");
+            DispatchReport(report);
         }
 
         bool ValidClientAuthor(OperationReport report)
