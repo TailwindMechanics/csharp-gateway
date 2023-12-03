@@ -91,7 +91,7 @@ namespace Neurocache.Operations
             var report = new OperationReport(
                 OperationToken,
                 Ships.ThisVessel,
-                "Vanguard started",
+                agentId.ToString(),
                 false,
                 "vanguard_started"
             );
