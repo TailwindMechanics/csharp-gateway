@@ -53,6 +53,7 @@ namespace Neurocache.Operations
                 .Subscribe(_ => StopSubject.OnNext(Unit.Default));
 
             conduitReportSub = conduitChannel.OnReportReceived
+                .Where(NotFromMe)
                 .TakeUntil(StopSubject)
                 .Subscribe(OnConduitReport);
 
@@ -60,6 +61,7 @@ namespace Neurocache.Operations
 
             clientReportSub = clientChannel.OnReportReceived
                 .Where(report => report.Token == OperationToken)
+                .Where(NotFromMe)
                 .TakeUntil(StopSubject)
                 .Subscribe(OnClientReport);
 
@@ -167,5 +169,8 @@ namespace Neurocache.Operations
             Ships.Log($"Dispatching Vanguard stopped report: {report}");
             DispatchReport(report);
         }
+
+        bool NotFromMe(OperationReport report)
+            => report.Author != "Vanguard";
     }
 }
