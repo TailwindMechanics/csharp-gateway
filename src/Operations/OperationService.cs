@@ -19,6 +19,7 @@ namespace Neurocache.Operations
             OperationOutline outline
         )
         {
+            Ships.Log($"Creating operation for agent {agentId}");
             var operation = new Operation(webSocket, agentId, outline);
             Operations.TryAdd(operation.OperationToken, operation);
             return operation;
