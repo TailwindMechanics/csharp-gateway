@@ -35,6 +35,7 @@ namespace Neurocache.RequestsChannel
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(_ => Stop(true));
 
+            Ships.Log("RequestsChannelService starting");
             Start();
         }
 
