@@ -55,7 +55,6 @@ namespace Neurocache.Operations
             conduitReportSub = conduitChannel.OnReportReceived
                 .Where(ValidConduitAuthor)
                 .TakeUntil(StopSubject)
-                .TakeUntil(StopSubject)
                 .Subscribe(OnConduitReport);
 
             conduitChannel.Start();
@@ -176,7 +175,7 @@ namespace Neurocache.Operations
             => report.Author == "Client";
 
         bool ValidConduitAuthor(OperationReport report)
-            => report.Author == "Client"
-                || report.Author == "Hub";
+            => report.Author != "Client"
+                && report.Author != "Vanguard";
     }
 }
