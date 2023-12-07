@@ -53,7 +53,6 @@ namespace Neurocache.Operations
                 .Subscribe(_ => StopSubject.OnNext(Unit.Default));
 
             conduitReportSub = conduitChannel.OnReportReceived
-                .Where(ValidConduitAuthor)
                 .TakeUntil(StopSubject)
                 .Subscribe(OnConduitReport);
 
@@ -61,7 +60,6 @@ namespace Neurocache.Operations
 
             clientReportSub = clientChannel.OnReportReceived
                 .Where(report => report.Token == OperationToken)
-                .Where(ValidClientAuthor)
                 .TakeUntil(StopSubject)
                 .Subscribe(OnClientReport);
 
@@ -94,7 +92,6 @@ namespace Neurocache.Operations
             Ships.Log($"OnReportReceived: {inboundReport}");
 
             var outboundReport = inboundReport;
-            outboundReport.SetVanguardAuthor();
             DispatchReport(outboundReport);
 
             if (!outboundReport.Final)
@@ -170,12 +167,5 @@ namespace Neurocache.Operations
             Ships.Log($"Dispatching Vanguard stopped report: {report}");
             DispatchReport(report);
         }
-
-        bool ValidClientAuthor(OperationReport report)
-            => report.Author == "Client";
-
-        bool ValidConduitAuthor(OperationReport report)
-            => report.Author != "Client"
-                && report.Author != "Vanguard";
     }
 }

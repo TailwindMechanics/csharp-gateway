@@ -29,10 +29,6 @@ namespace Neurocache.Schema
 
         public void SetRecipient(string recipient)
             => Recipient = recipient;
-        public void SetClientAuthor()
-            => Author = "Client";
-        public void SetVanguardAuthor()
-            => Author = "Vanguard";
         public override string ToString()
             => $"OperationReport: token:{Token}, author:{Author}, recipient:{Recipient}, payload:{Payload}, agentId:{AgentId}, final:{Final}, reportId:{ReportId}, status:{Status}, errors:{Errors}";
         public static OperationReport? FromJson(string json)

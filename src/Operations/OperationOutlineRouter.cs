@@ -64,7 +64,7 @@ namespace Neurocache.Operations
                     // Create Reports for Next Nodes
                     var newReport = new OperationReport(
                         previousReport.Token,
-                        Ships.ThisVessel,
+                        previousReport.Author,
                         targetNode.Data.NodeType!,
                         previousReport.Payload,
                         previousReport.AgentId,

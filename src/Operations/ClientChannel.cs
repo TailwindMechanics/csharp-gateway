@@ -61,7 +61,6 @@ namespace Neurocache.Operations
                 return;
             }
 
-            report.SetClientAuthor();
             onReportReceived.OnNext(report);
         }
 
