@@ -1,6 +1,5 @@
 //path: src\LogkeepFrigate\Logkeep.cs
 
-using Serilog.Sinks.Elasticsearch;
 using Serilog.Core;
 using Serilog;
 
@@ -35,24 +34,12 @@ namespace Neurocache.LogkeepFrigate
 
             Serilog.Debugging.SelfLog.Enable(Console.Error);
 
-            var username = Environment.GetEnvironmentVariable("ELASTIC_USERNAME")!;
-            var password = Environment.GetEnvironmentVariable("ELASTIC_PASSWORD")!;
-            var uri = Environment.GetEnvironmentVariable("ELASTIC_URI")!;
-
             return new LoggerConfiguration()
                 .MinimumLevel.Is(serilogLevel)
                 .Enrich.WithProperty("Category", category)
                 .Enrich.WithProperty("Ship", Ships.ThisVessel)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(uri))
-                {
-                    AutoRegisterTemplate = true,
-                    IndexFormat = index,
-                    ModifyConnectionSettings = x => x.BasicAuthentication(
-                        username, password
-                    ),
-                })
                 .CreateLogger();
         }
     }
